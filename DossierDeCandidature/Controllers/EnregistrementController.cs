@@ -24,22 +24,27 @@ namespace DossierDeCandidature.Controllers
             RenseignementAdministratif renseignementAdministratif = (RenseignementAdministratif)Session["administratif"];
             db.RenseignementsAdministratifs.Add(renseignementAdministratif);
             await db.SaveChangesAsync();
-            int? Id = (db.RenseignementsAdministratifs.Where(r => r.Secu == renseignementAdministratif.Secu).FirstOrDefault()).Id;
-            
-            return RedirectToAction("Verification", "Enregistrement", new { id = Id });
+            try
+            {
+                int Id = (db.RenseignementsAdministratifs.Where(r => r.Secu == renseignementAdministratif.Secu).FirstOrDefault()).Id;
+                Session["idRenseignement"] = Id;
+            }
+            catch { }
+           
+            return RedirectToAction("Verification", "Enregistrement");
 
         }
 
         //Affichage des données de l'utilisateur pour vérification
 
-        public async Task<ActionResult> Verification(int? id)
+        public async Task<ActionResult> Verification()
         {
             CandidatureVM cand = new CandidatureVM();
-            Session.Timeout = 30;
-            Session["idRenseignement"] = id;
-            
 
-            if (id == null)
+            int id = (int)Session["idRenseignement"];
+
+
+            if (id==null)
             {
 
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -62,11 +67,12 @@ namespace DossierDeCandidature.Controllers
             return View(cand);
         }
 
-       //Generation du pdf et envoi par mail
-        public ActionResult PrintRenseignement(int id)
+        //Generation du pdf et envoi par mail
+        public ActionResult PrintRenseignement()
         {
+            int ID = (int)Session["idRenseignement"];
             var renseignementAdministratif = db.RenseignementsAdministratifs
-               .Where(x => x.Id == id)
+               .Where(x => x.Id == ID)
                .Include(x => x.Candidature)
                 .Include(x => x.Experience)
                  .Include(x => x.Langues)
@@ -75,7 +81,7 @@ namespace DossierDeCandidature.Controllers
                     .Include(x => x.Motivation)
                     .FirstOrDefault();
             string nom = renseignementAdministratif.Nom + " " + renseignementAdministratif.Prenom;
-            var report = new ActionAsPdf("Verification", new { Id = id });
+            var report = new ActionAsPdf("Verification", new { Id = ID });
             report.PageOrientation = Rotativa.Options.Orientation.Portrait;
             report.FileName = "Dossier_De_Candidature.pdf";
             report.PageSize = Rotativa.Options.Size.A4;
@@ -90,7 +96,7 @@ namespace DossierDeCandidature.Controllers
             string mailFrom = "experisetest@gmail.com";
             MailAddress from = new MailAddress(mailFrom, "Candidature");
             //hedi.lachtane@experis-it.fr
-            MailAddress to = new MailAddress("hedi.lachtane@experis-it.fr");            
+            MailAddress to = new MailAddress("armelle.youmbi@experis-it.fr");
             System.Net.Mail.MailMessage mm = new System.Net.Mail.MailMessage(from, to);
 
             mm.Subject = "Dossier de candidature";

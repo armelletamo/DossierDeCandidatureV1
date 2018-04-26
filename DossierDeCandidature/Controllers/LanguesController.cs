@@ -93,7 +93,7 @@ namespace DossierDeCandidature.Controllers
                     }
                 }
                 //return RedirectToAction("Verification", "Enregistrement");
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(langues);
         }
@@ -122,7 +122,7 @@ namespace DossierDeCandidature.Controllers
             Langues langues = await db.Langues.FindAsync(id);
             db.Langues.Remove(langues);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+            return RedirectToAction("Verification", "Enregistrement");
         }
 
         protected override void Dispose(bool disposing)
@@ -167,7 +167,7 @@ namespace DossierDeCandidature.Controllers
                     }
                 }
 
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View("AjouterLangue");
         }

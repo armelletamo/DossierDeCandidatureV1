@@ -68,7 +68,7 @@ namespace DossierDeCandidature.Controllers
                                
                 db.Entry(renseignementAdministratif).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Verification", "Enregistrement", new { id = renseignementAdministratif.Id });
+                return RedirectToAction("Verification", "Enregistrement");
 
             }
             return View(renseignementAdministratif);

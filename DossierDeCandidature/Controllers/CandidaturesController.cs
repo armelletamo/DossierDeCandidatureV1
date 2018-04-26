@@ -80,7 +80,7 @@ namespace DossierDeCandidature.Controllers
                 db.SaveChanges();
 
                 //return RedirectToAction("Index", "Home");
-                return RedirectToAction("Verification", "Enregistrement", new { id = candidature.Id });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(candidature);
         }       

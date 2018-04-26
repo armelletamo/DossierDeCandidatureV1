@@ -95,7 +95,7 @@
                 <br />
                 <div class="form-group">
                     @Html.LabelFor(model => model.DateNaiss, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DateNaiss, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.DateNaiss, new { htmlAttributes = new { @class = "form-control", @type = "text", @pattern = "d{ 1,2}/ d{ 1,2}/ d{ 4}" }  } )
                     @Html.ValidationMessageFor(model => model.DateNaiss, "", new { @class = "text-danger" })
                 </div>
 
@@ -117,7 +117,7 @@
                 <br />
                 <div class="form-group">
                     @Html.LabelFor(model => model.DateExpiration, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DateExpiration, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.DateExpiration, new { htmlAttributes = new { @class = "form-control", @type = "text", @pattern = "d{ 1,2}/ d{ 1,2}/ d{ 4}" } })
                     @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
 
                 </div>

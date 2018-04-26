@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DossierDeCandidature.Models
 {
-    public class RenseignementAdministratif
+    public class RenseignementAdministratif : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -98,5 +98,20 @@ namespace DossierDeCandidature.Models
 
         public Motivation Motivation { get; set; }
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            RenseignementAdministratif rens = (RenseignementAdministratif)validationContext.ObjectInstance;
+
+            if (rens.DateNaiss > DateTime.Now)
+            {
+
+                yield return new ValidationResult("la date ne peux pas être supérieur au :" + DateTime.Now.ToShortDateString(), new string[] { "DateNaiss" });
+            }
+            if (rens.DateExpiration < DateTime.Now)
+            {
+
+                yield return new ValidationResult("la date ne peux pas être antérieur au :" + DateTime.Now.ToShortDateString(), new string[] { "DateExpiration" });
+            }
+        }
     }
 }

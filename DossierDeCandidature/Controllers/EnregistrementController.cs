@@ -119,7 +119,7 @@ namespace DossierDeCandidature.Controllers
                 return report;
             }
             //*********************************************
-
+            Session.Clear();
             //return report;
             return RedirectToAction("Index", "Home");
         }

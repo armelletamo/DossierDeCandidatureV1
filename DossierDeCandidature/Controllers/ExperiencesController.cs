@@ -65,7 +65,7 @@ namespace DossierDeCandidature.Controllers
             {                
                 db.Entry(experience).State = EntityState.Modified;
                 db.SaveChanges();                
-                return RedirectToAction("Verification", "Enregistrement", new { id = experience.Id });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(experience);
         }      

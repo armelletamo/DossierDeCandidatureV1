@@ -103,7 +103,7 @@ namespace DossierDeCandidature.Controllers
                     db.Entry(item).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(references);
         }
@@ -132,7 +132,7 @@ namespace DossierDeCandidature.Controllers
             References references = await db.References.FindAsync(id);
             db.References.Remove(references);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+            return RedirectToAction("Verification", "Enregistrement");
         }
 
         protected override void Dispose(bool disposing)
@@ -176,7 +176,7 @@ namespace DossierDeCandidature.Controllers
                     }
                 }
 
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View("Ajouter");
         }

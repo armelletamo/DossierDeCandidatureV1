@@ -69,7 +69,7 @@ namespace DossierDeCandidature.Controllers
             {
                 db.Entry(motivation).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(motivation);
         }

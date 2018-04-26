@@ -70,9 +70,9 @@ namespace DossierDeCandidature.Controllers
         //Generation du pdf et envoi par mail
         public ActionResult PrintRenseignement()
         {
-            int Id = (int)Session["idRenseignement";
+            int ID = (int)Session["idRenseignement"];
             var renseignementAdministratif = db.RenseignementsAdministratifs
-               .Where(x => x.Id == Id)
+               .Where(x => x.Id == ID)
                .Include(x => x.Candidature)
                 .Include(x => x.Experience)
                  .Include(x => x.Langues)
@@ -81,7 +81,7 @@ namespace DossierDeCandidature.Controllers
                     .Include(x => x.Motivation)
                     .FirstOrDefault();
             string nom = renseignementAdministratif.Nom + " " + renseignementAdministratif.Prenom;
-            var report = new ActionAsPdf("Verification", new { Id = id });
+            var report = new ActionAsPdf("Verification", new { Id = ID });
             report.PageOrientation = Rotativa.Options.Orientation.Portrait;
             report.FileName = "Dossier_De_Candidature.pdf";
             report.PageSize = Rotativa.Options.Size.A4;
@@ -96,7 +96,7 @@ namespace DossierDeCandidature.Controllers
             string mailFrom = "experisetest@gmail.com";
             MailAddress from = new MailAddress(mailFrom, "Candidature");
             //hedi.lachtane@experis-it.fr
-            MailAddress to = new MailAddress("hedi.lachtane@experis-it.fr");
+            MailAddress to = new MailAddress("armelle.youmbi@experis-it.fr");
             System.Net.Mail.MailMessage mm = new System.Net.Mail.MailMessage(from, to);
 
             mm.Subject = "Dossier de candidature";

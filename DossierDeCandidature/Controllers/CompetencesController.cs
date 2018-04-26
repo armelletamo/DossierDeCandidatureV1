@@ -90,7 +90,7 @@ namespace DossierDeCandidature.Controllers
                         db.SaveChanges();
                     }
                 }
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View(comp);
         }
@@ -121,7 +121,7 @@ namespace DossierDeCandidature.Controllers
             Competences competences = await db.Competences.FindAsync(id);
             db.Competences.Remove(competences);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+            return RedirectToAction("Verification", "Enregistrement");
         }
 
         protected override void Dispose(bool disposing)
@@ -165,7 +165,7 @@ namespace DossierDeCandidature.Controllers
                     }
                 }
 
-                return RedirectToAction("Verification", "Enregistrement", new { id = idRenseignement });
+                return RedirectToAction("Verification", "Enregistrement");
             }
             return View("Ajouter");
         }

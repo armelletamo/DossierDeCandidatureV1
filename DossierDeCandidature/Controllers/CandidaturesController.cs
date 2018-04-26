@@ -22,7 +22,7 @@ namespace DossierDeCandidature.Controllers
         {
             return View();
         }
-
+        //Creation Candidature
         // POST: Candidatures/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.

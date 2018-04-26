@@ -1,0 +1,71 @@
+﻿@model DossierDeCandidature.Models.References
+<style>
+    .form-group {
+        margin-right: 15px;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<br /> <br /> <br />
+<h2 class="text-center">REFERENCES PROFESSIONNELLES</h2>
+<br />
+@using (Html.BeginForm("Ajouter", "References"))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="row">
+            <div class="form-inline">
+
+                <div class="champs" id="d1">
+                    <div class="form-group">
+                        <label class="control-label">Nom/Prénom</label>
+                        <div>
+                            <input name="[0].NomPrenom" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Fonction</label>
+                        <div>
+                            <input name="[0].Fonction" class="form-control" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label class="control-label">Sociéte</label>
+                        <div>
+                            <input name="[0].Societe" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tel/Mail</label>
+                        <div>
+                            <input name="[0].TelMail" class="form-control" type="email"/>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="~/Scripts/JavaScript.js"></script>
+
+                <br />
+                <br />
+                <br />
+                <div>
+                    <input type="submit" value="Valider" class="btn btn-primary pull-right" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<button id="btn1" class="btn btn-default" style="background-color:darkgrey">Ajouter</button>
+@{
+    int ID = (int)Session["idRenseignement"];
+}
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

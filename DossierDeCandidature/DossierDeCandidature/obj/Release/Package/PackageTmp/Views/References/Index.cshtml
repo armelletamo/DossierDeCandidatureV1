@@ -1,0 +1,51 @@
+﻿@model IEnumerable<DossierDeCandidature.Models.References>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NomPrenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fonction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Societe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelMail)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomPrenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fonction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Societe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelMail)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

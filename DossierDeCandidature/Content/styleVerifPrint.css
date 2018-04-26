@@ -1,0 +1,68 @@
+﻿@media print {
+
+    /*dl {
+        border: 3px double #ccc;
+        padding: 0.5em;
+    }*/   
+    #content {
+        margin-top: 0px;
+
+    }
+   
+    dt {
+        float: left;
+        clear: left;
+        width: 300px;
+        text-align: right;
+        font-weight: bold;
+    }
+
+        dt::after {
+            content: ":";
+        }
+
+    dd {
+        margin: 0 0 0 12px;
+        padding: 0 0 0.5em 0;
+    }
+
+    h3 {
+        color: Highlight;
+        text-align: left;
+        
+    }
+
+    p {
+        text-align: justify;
+    }
+
+
+    table {
+        text-align: center;
+        border: 2px solid #ccc;
+        
+    }    
+    th {
+        text-align: center;
+    }
+
+    #link, #header, #sautDeligneHeader {
+        display: none;
+    }
+
+    #PageFormation {
+        page-break-before: always;
+                
+    }
+    #langueTableau {        
+        page-break-inside:auto;
+    }
+    #PageCompetence {
+        page-break-inside: auto;
+    }
+    #PageReference {
+        page-break-inside: auto;
+    }    
+    
+    
+}

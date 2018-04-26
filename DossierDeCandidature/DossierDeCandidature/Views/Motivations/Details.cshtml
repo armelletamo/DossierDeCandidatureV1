@@ -1,0 +1,42 @@
+﻿@model DossierDeCandidature.Models.Motivation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="form-group">
+    <h4>MOTIVATION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExperisIt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExperisIt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MotifRecherche)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MotifRecherche)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Objectif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Objectif)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,50 @@
+﻿@model DossierDeCandidature.Models.Langues
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Langues</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Langue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NiveauLangue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NiveauLangue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Autre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Niveau)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Niveau)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,565 @@
+﻿@model DossierDeCandidature.Models.CandidatureVM
+
+<style>
+    th{
+        font-size:medium;
+        color:Highlight;
+    }
+    dt {
+        font-size: medium;
+        color: Highlight;
+    }
+    label {
+        color: Highlight;
+    }
+</style>
+<link href="~/Content/styleVerif.css" rel="stylesheet" />
+<link href="~/Content/styleVerifPrint.css" rel="stylesheet" media="print" />
+<div id="sautDeligneHeader">
+    <br /><br /><br /><br /><br /><br /><br /><br />
+</div>
+<body>
+    <form id="content">
+        <h2>VOS INFORMATIONS</h2>
+
+        <h3>RENSEIGNEMENTS ADMINISTRATIFS</h3>
+        <div id="renseignement">
+
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Nom)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Nom)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Prenom)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Prenom)
+                </dd>
+                @if (Model.Renseignement.NomJeuneFille != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Renseignement.NomJeuneFille)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.NomJeuneFille)
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Adresse)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Adresse)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.CodePostal)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.CodePostal)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Ville)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Ville)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Telephone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Telephone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Email)
+                </dt>
+
+                <dd>
+                    @*@Html.DisplayFor(model => model.Renseignement.Email)*@
+                    @Model.Renseignement.Email
+                </dd>
+
+                <dt>
+                    Sécurité sociale
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Secu)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.DateNaiss)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.DateNaiss)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.LieuNaiss)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.LieuNaiss)
+                </dd>
+
+                @{
+                    bool b = Model.Renseignement.AutorisationTravail;
+                    if (b == true)
+                    {
+                        <dt>
+                            Autorisation de travail
+                        </dt>
+                        <dd> oui </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Renseignement.DateExpiration)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Renseignement.DateExpiration)
+                        </dd>
+                    }
+
+                }
+
+                <dt>
+                    Permis de conduire
+                </dt>
+
+                @{
+                    bool c = Model.Renseignement.PermisConduire;
+                    if (c == true)
+                    {
+                        <dd> oui </dd>
+                    }
+                    else
+                    {
+                        <dd> Non</dd>
+                    }
+                }
+                <dt>
+                    Vehicule
+                </dt>
+
+                @{
+                    bool d = Model.Renseignement.Vehicule;
+                    if (d == true)
+                    {
+                        <dd> oui</dd>
+                    }
+                    else
+                    {
+                        <dd> Non</dd>
+                    }
+                }
+                <dt>
+                    Handicapé
+                </dt>
+
+                @{
+                    bool e = Model.Renseignement.Handicap;
+                    if (e == true)
+                    {
+                        <dd> oui</dd>
+                    }
+                    else
+                    {
+                        <dd>  Non </dd>
+                    }
+                }
+
+                <dt>
+                    Amenagement de Poste
+                </dt>
+
+                @{
+                    bool f = Model.Renseignement.AmenagementPoste;
+                    if (f == true)
+                    {
+                        <dd> oui</dd>
+                    }
+                    else
+                    {
+                        <dd>  Non </dd>
+                    }
+                }
+
+            </dl>
+            <div id="link">
+                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { Id = Model.Renseignement.Id }, null)
+            </div>
+        </div>
+        @*</div>*@
+        @*<div id="content1">*@
+        <h3>VOTRE CANDIDATURE</h3>
+        <div id="renseignement">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Candidature.Origine)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.Origine)
+                </dd>
+                @if (Model.Renseignement.Candidature.Origine == "Autre")
+                {
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Renseignement.Candidature.Autre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Candidature.Autre)
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Candidature.statutActuel)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.statutActuel)
+                </dd>
+                @if (Model.Renseignement.Candidature.statutActuel != "Sans Emploi")
+                {
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Renseignement.Candidature.PosteActuel)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Candidature.PosteActuel)
+                    </dd>
+                    <dt>
+                        Remuneration actuelle
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Candidature.Remuneration)
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Candidature.PosteSouhaite)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.PosteSouhaite)
+                </dd>
+
+
+                <dt>
+                    Remuneration souhaité
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.RemunerationVoulu)
+                </dd>
+
+                <dt>
+                    Année d'experience
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.Experience)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Renseignement.Candidature.Disponibilite)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Renseignement.Candidature.Disponibilite)
+                </dd>
+
+                <dt>
+                    Mobilité geographique
+                </dt>
+
+                @{
+                    bool g = Model.Renseignement.Candidature.mobilité;
+                    if (g == true)
+                    {
+                        <dd> oui</dd>
+                        <dt>
+                            Precision
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Renseignement.Candidature.Precision)
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd>  Non </dd>
+                    }
+                }
+
+
+            </dl>
+            <div id="link">
+                @Html.ActionLink("modifier", "Edit", "Candidatures", new { Id = Model.Renseignement.Id }, null)
+            </div>
+        </div>
+        <div id="PageFormation">
+
+            <h3>VOTRE FORMATION</h3>
+            <div id="renseignement">
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Renseignement.Experience.Formation)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Experience.Formation)
+                    </dd>
+
+                    <dt>
+                        Dernier diplôme
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Experience.Diplome)
+                    </dd>
+
+                    <dt>
+                        Etablissement
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Experience.Ecole)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Renseignement.Experience.Annee)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Renseignement.Experience.Annee)
+                    </dd>
+
+                </dl>
+                <div id="link">
+                    @Html.ActionLink("modifier", "Edit", "Experiences", new { Id = Model.Renseignement.Id }, null)
+                </div>
+            </div>
+        </div>
+
+        @*</div>*@
+        @*<div id="content2">*@
+        <div id="langueTableau">
+            <h3>VOS LANGUES</h3>
+            <div class="container-fluid table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Renseignement.Langues.First().Langue)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Renseignement.Langues.First().NiveauLangue)
+                            </th>
+                            <th id="link"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Renseignement.Langues)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Langue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NiveauLangue)
+                                </td>
+                                <td id="link">
+                                    @if (item.Langue != Model.Renseignement.Langues.First().Langue)
+                                    {
+                                        @Html.ActionLink("Supprimer", "Delete", "Langues", new { Id = item.Id }, null)
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="link">
+                @Html.ActionLink("modifier", "Edit", "Langues", new { Id = Model.Renseignement.Id }, null)|
+                @Html.ActionLink("Ajouter", "AjouterLangue", "Langues", new { Id = Model.Renseignement.Id }, null)
+            </div>
+        </div>
+    </form>
+    <div id="PageCompetence">
+
+        <form id="content1">
+            <div>
+                <h3>VOS COMPETENCES</h3>
+
+                <div class="container-fluid table-responsive">
+                    <table class=" table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Renseignement.Competences.First().Competence)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Renseignement.Competences.First().NiveauCompetence)
+                                </th>
+                                <th id="link"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Renseignement.Competences)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Competence)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NiveauCompetence)
+                                    </td>
+                                    <td id="link">
+                                        @Html.ActionLink("Supprimer", "Delete", "Competences", new { Id = item.Id }, null)
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div id="link">
+                    @if (Model.Renseignement.Competences.Count > 0)
+                    {
+
+                        @Html.ActionLink("modifier", "Edit", "Competences", new { Id = Model.Renseignement.Id }, null)
+                    }
+                    |@Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = Model.Renseignement.Id }, null)
+                </div>
+            </div>
+            <div id="PageReference">
+
+                <h3>VOS REFERENCES</h3>
+                <div>
+
+                    <div class="container-fluid table-responsive">
+                        <table class=" table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Renseignement.References.First().NomPrenom)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Renseignement.References.First().Fonction)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Renseignement.References.First().Societe)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Renseignement.References.First().TelMail)
+                                    </th>
+                                    <th id="link"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Renseignement.References)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NomPrenom)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Fonction)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Societe)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TelMail)
+                                        </td>
+                                        <td id="link">
+                                            @Html.ActionLink("Supprimer", "Delete", "References", new { Id = item.Id }, null)
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="link">
+                        @if (Model.Renseignement.References.Count > 0)
+                        {
+
+                            @Html.ActionLink("modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null);
+
+                        }
+                        |@Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = Model.Renseignement.Id }, null)
+                    </div>
+                </div>
+            </div>
+            @*</div>*@
+            @*<div id="content3">*@
+            <h3>VOTRE MOTIVATION</h3>
+            <div id="renseignement">
+                <div>
+                    <label>
+                        @Html.DisplayNameFor(model => model.Renseignement.Motivation.ExperisIt)
+                    </label>
+                </div>
+                <p>
+                    @Html.DisplayFor(model => model.Renseignement.Motivation.ExperisIt)
+                </p>
+                <div>
+                    <label>
+                        @Html.DisplayNameFor(model => model.Renseignement.Motivation.MotifRecherche)
+                    </label>
+                </div>
+                <p>
+                    @Html.DisplayFor(model => model.Renseignement.Motivation.MotifRecherche)
+                </p>
+                <div>
+                    <label>
+                        @Html.DisplayNameFor(model => model.Renseignement.Motivation.Objectif)
+                    </label>
+                </div>
+                <p>
+                    @Html.DisplayFor(model => model.Renseignement.Motivation.Objectif)
+                </p>
+                <div id="link">
+                    @Html.ActionLink("modifier", "Edit", "Motivations", new { Id = Model.Renseignement.Id }, null)
+                </div>
+            </div>
+
+            <br /><br /><br /><br /><br /><br />
+            <p style="text-align:justify">En transmettant ce dossier à Experis-IT, je certifie sur l'honneur l'exactitude des renseignements et des faits portés sur ce document et donne mon autorisation pour qu'ils soient conservés conformément aux dispositions de la loi n° 78-17 du 06 janvier 1978, relative à l'informatique, aux fichiers et aux libertés. Vous disposez d'un droit d'accès, de modification, de rectification et de suppression des données qui vous concernent. Pour l'exercer, adressez vous à Experis-IT Direction des Resources Humaines - Immeuble Eureka 13 rue ernest Renan - 92723 Nanterre Cedex.</p>
+
+        </form>
+    </div>
+
+    <div id="editor"></div>
+
+    <br /><br /><br /><br />
+    <div id="link">        
+        <button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Model.Renseignement.Id }, null)';return false;">Envoyer</button>
+    </div>
+
+</body>
+
+
+
+

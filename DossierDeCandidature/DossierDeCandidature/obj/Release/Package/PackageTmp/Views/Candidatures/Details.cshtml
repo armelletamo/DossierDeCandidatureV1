@@ -1,0 +1,106 @@
+﻿@model DossierDeCandidature.Models.Candidature
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Candidature</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Origine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Autre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.statutActuel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.statutActuel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PosteActuel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PosteActuel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PosteSouhaite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PosteSouhaite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remuneration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remuneration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RemunerationVoulu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RemunerationVoulu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Experience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Experience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disponibilite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disponibilite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mobilité)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mobilité)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Precision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Precision)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

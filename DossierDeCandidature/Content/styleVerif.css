@@ -1,0 +1,32 @@
+﻿body {
+}
+
+h3 {
+    color: Highlight
+}
+
+p {
+    text-align: justify;
+   
+}
+
+dt {
+    margin-right: 50px;
+}
+
+dl {
+    display: inline;
+}
+
+table {
+    text-align: center;
+    
+}
+
+th {
+    text-align: center;
+}
+#renseignement {
+    border: 2px solid #ccc;
+    padding: 15px 15px 15px 15px;
+}

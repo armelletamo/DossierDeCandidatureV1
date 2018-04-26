@@ -1,0 +1,93 @@
+﻿@model IEnumerable<DossierDeCandidature.Models.Candidature>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Origine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Autre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.statutActuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PosteActuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PosteSouhaite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remuneration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemunerationVoulu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Experience)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Disponibilite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mobilité)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precision)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Origine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Autre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.statutActuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PosteActuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PosteSouhaite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remuneration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemunerationVoulu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Experience)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Disponibilite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mobilité)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precision)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

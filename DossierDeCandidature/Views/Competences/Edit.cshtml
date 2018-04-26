@@ -1,0 +1,107 @@
+﻿
+@model IEnumerable<DossierDeCandidature.Models.Competences>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/JavaScript.js"></script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <br /><br /><br />
+    <h2>VOS COMPETENCES</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="container">
+        <div class="row">
+
+
+            <div class="form-inline">
+                @{
+                    int index = 0;
+                }
+                <div class="champs-competence" id="d">
+
+                    @foreach (var item in Model)
+                    {
+                        <input type="hidden" name="[@index].Id" value=@item.Id />
+                        <input type="hidden" name="[@index].RenseignementAdministratif.Id" value=@item.RenseignementAdministratif.Id />
+                        <div class="form-group">
+                            <label class="control-label ">Compétence</label>
+
+                            <div>
+                                <textarea id="test" name="[@index].Competence" cols="60" rows="2" class="form-control"> @Model.ElementAt(index).Competence </textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Niveau</label>
+                            <div>
+                                @if (item.NiveauCompetence == "")
+                                {
+                                    <select class="form-control" name="[@index].NiveauCompetence" style="text-align-last:center">
+                                        <option value="" selected> - Niveau - </option>
+                                        <option value="Debutant"> Debutant (0 à 1 an) </option>
+                                        <option value="Confirme">Confirmé (2 à 5 ans)</option>
+                                        <option value="Experimente">Expérimenté (plus de 5 ans)</option>
+                                    </select>
+                                }
+
+                                @if (item.NiveauCompetence == "Debutant")
+                                {
+                                    <select class="form-control" name="[@index].NiveauCompetence" style="text-align-last:center">
+                                        <option value=""> - Niveau - </option>
+                                        <option value="Debutant" selected> Debutant (0 à 1 an) </option>
+                                        <option value="Confirme">Confirmé (2 à 5 ans)</option>
+                                        <option value="Experimente">Expérimenté (plus de 5 ans)</option>
+                                    </select>
+                                }
+
+                                @if (item.NiveauCompetence == "Confirme")
+                                {
+                                    <select class="form-control" name="[@index].NiveauCompetence" style="text-align-last:center">
+                                        <option value=""> - Niveau - </option>
+                                        <option value="Debutant"> Debutant (0 à 1 an) </option>
+                                        <option value="Confirme" selected>Confirmé (2 à 5 ans)</option>
+                                        <option value="Experimente">Expérimenté (plus de 5 ans)</option>
+                                    </select>
+                                }
+
+                                @if (item.NiveauCompetence == "Experimente")
+                                {
+                                    <select class="form-control" name="[@index].NiveauCompetence" style="text-align-last:center">
+                                        <option value=""> - Niveau - </option>
+                                        <option value="Debutant"> Debutant (0 à 1 an) </option>
+                                        <option value="Confirme">Confirmé (2 à 5 ans)</option>
+                                        <option value="Experimente" selected>Expérimenté (plus de 5 ans)</option>
+                                    </select>
+                                }
+                            </div>
+                        </div>
+                        <br />
+                        index++;
+                    }
+                </div>
+
+                <br /> <br /> <br /> <br />
+
+                <div>
+                    <input type="submit" value="Modifier" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+@{
+    int ID = (int)Session["idRenseignement"];
+}
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

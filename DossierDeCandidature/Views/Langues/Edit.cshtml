@@ -1,0 +1,121 @@
+﻿@model IEnumerable<DossierDeCandidature.Models.Langues>
+@*@model DossierDeCandidature.Models.CandidatureVM*@
+
+
+<script src="~/Scripts/JavaScript.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<style>
+    .form-group {
+        margin-right: 15px;
+    }
+
+    .largeur {
+        margin-right: 25px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-inline">
+    <br />
+    <br />br /><br />
+    <h2 class=" text-center">VOS LANGUES ETRANGERES</h2>
+    <br />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container">
+        <div class="row">
+
+            <div class="Champ_langue" id="l">
+                <div class="form-group largeur">
+                    <label>Langue</label><br />
+                    <input name="[0].Langue" class="form-control" value="Anglais" style="text-align:center; width:310px;" readonly="readonly" />
+                    <input type="hidden" name="[0].id" value=@Model.ElementAt(0).Id />
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Niveau Langue</label>
+                    <select class="form-control" name="[0].NiveauLangue">
+                        <option value="Non opérationnel"> Non opérationnel </option>
+                        <option value="Opérationnel">Opérationnel</option>
+                        <option value="Courant">Courant</option>
+                    </select>
+                </div>
+                <br />
+                @{
+                    var index = 1;
+                }
+
+                @foreach (var item in Model.Skip(1))
+                {
+
+
+
+                    <div class="form-group f">
+                        <label class="control-label ">Autre Langue</label>
+                        <input name="[@index].Langue" class="form-control" value=@item.Langue style="text-align:center;" />
+                        <input type="hidden" name="[@index].id" value=@Model.ElementAt(index).Id />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Niveau Langue</label>
+
+                        @if (item.NiveauLangue == "Non opérationnel")
+                        {
+                            <select class="form-control" name="[@index].NiveauLangue">
+                                <option value="Non opérationnel" selected> Non opérationnel </option>
+                                <option value="Opérationnel">Opérationnel</option>
+                                <option value="Courant">Courant</option>
+                            </select>
+                        }
+
+                        @if (item.NiveauLangue == "Opérationnel")
+                        {
+                            <select class="form-control" name="[@index].NiveauLangue">
+                                <option value="Non opérationnel"> Non opérationnel </option>
+                                <option value="Opérationnel" selected>Opérationnel</option>
+                                <option value="Courant">Courant</option>
+                            </select>
+                        }
+                        @if (item.NiveauLangue == "Courant")
+                        {
+                            <select class="form-control" name="[@index].NiveauLangue">
+                                <option value="Non opérationnel"> Non opérationnel </option>
+                                <option value="Opérationnel">Opérationnel</option>
+                                <option value="Courant" selected>Courant</option>
+                            </select>
+                        }
+                        @{
+                            index++;
+                        }
+
+                    </div>
+                    <br />
+                    <br />
+
+                }
+                <br />
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@{
+    int ID = (int)Session["idRenseignement"];
+}
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

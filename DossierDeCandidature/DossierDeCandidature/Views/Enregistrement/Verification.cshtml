@@ -1,0 +1,509 @@
+﻿@model DossierDeCandidature.Models.CandidatureVM
+
+<style>
+    h3 {
+        color: Highlight
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    dt {
+        margin-right: 50px;
+    }
+
+    dl {
+        display: inline;
+    }
+
+    table {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+</style>
+
+<div id="content">
+    <h2>VOS INFORMATIONS</h2>
+
+    <div>
+        <h3>RENSEIGNEMENTS ADMINISTRATIFS</h3>
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Nom)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Nom)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Prenom)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Prenom)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.NomJeuneFille)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.NomJeuneFille)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Adresse)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Adresse)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.CodePostal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.CodePostal)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Ville)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Ville)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Telephone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Telephone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Email)
+            </dd>
+
+            <dt>
+                Sécurité sociale
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Secu)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.DateNaiss)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.DateNaiss)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.LieuNaiss)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.LieuNaiss)
+            </dd>
+
+            <dt>
+                Autorisation de travail
+            </dt>
+            @{
+                bool b = Model.Renseignement.AutorisationTravail;
+                if (b == true)
+                {
+                    <dd> oui </dd>
+                }
+                else
+                {
+                    <dd>  Non  </dd>
+                }
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.DateExpiration)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.DateExpiration)
+            </dd>
+
+            <dt>
+                Permis de conduire
+            </dt>
+
+            @{
+                bool c = Model.Renseignement.PermisConduire;
+                if (c == true)
+                {
+                    <dd> oui </dd>
+                }
+                else
+                {
+                    <dd> Non</dd>
+                }
+            }
+            <dt>
+                Vehicule
+            </dt>
+
+            @{
+                bool d = Model.Renseignement.Vehicule;
+                if (d == true)
+                {
+                    <dd> oui</dd>
+                }
+                else
+                {
+                    <dd> Non</dd>
+                }
+            }
+            <dt>
+                Handicapé
+            </dt>
+
+            @{
+                bool e = Model.Renseignement.Handicap;
+                if (e == true)
+                {
+                    <dd> oui</dd>
+                }
+                else
+                {
+                    <dd>  Non </dd>
+                }
+            }
+
+            <dt>
+                Amenagement de Poste
+            </dt>
+
+            @{
+                bool f = Model.Renseignement.AmenagementPoste;
+                if (f == true)
+                {
+                    <dd> oui</dd>
+                }
+                else
+                {
+                    <dd>  Non </dd>
+                }
+            }
+
+        </dl>
+    </div>
+    @*</div>*@
+    @*<div id="content1">*@
+    <div>
+        <h3>CANDIDATURE</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.Origine)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Origine)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.Autre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Autre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.statutActuel)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.statutActuel)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.PosteActuel)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.PosteActuel)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.PosteSouhaite)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.PosteSouhaite)
+            </dd>
+
+            <dt>
+                Remuneration actuelle
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Remuneration)
+            </dd>
+
+            <dt>
+                Remuneration souhaité
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.RemunerationVoulu)
+            </dd>
+
+            <dt>
+                Année d'experience
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Experience)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Candidature.Disponibilite)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Disponibilite)
+            </dd>
+
+            <dt>
+                Mobilité geographique
+            </dt>
+
+            @{
+                bool g = Model.Renseignement.Candidature.mobilité;
+                if (g == true)
+                {
+                    <dd> oui</dd>
+                }
+                else
+                {
+                    <dd>  Non </dd>
+                }
+            }
+
+            <dt>
+                Precision
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Candidature.Precision)
+            </dd>
+
+        </dl>
+    </div>
+
+    <div>
+        <h3>FORMATION</h3>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Experience.Formation)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Experience.Formation)
+            </dd>
+
+            <dt>
+                Dernier diplôme
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Experience.Diplome)
+            </dd>
+
+            <dt>
+                Etablissement
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Experience.Ecole)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Renseignement.Experience.Annee)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Renseignement.Experience.Annee)
+            </dd>
+
+        </dl>
+    </div>
+    @*</div>*@
+    @*<div id="content2">*@
+    <div>
+        <h3>LANGUES</h3>
+        <div class="container-fluid table-responsive">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.Langues.First().Langue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.Langues.First().NiveauLangue)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Renseignement.Langues)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Langue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NiveauLangue)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3>VOS COMPETENCES</h3>
+    <div>
+
+        <div class="container-fluid table-responsive">
+            <table class=" table table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.Competences.First().Competence)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.Competences.First().NiveauCompetence)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Renseignement.Competences)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Competence)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NiveauCompetence)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3>VOS REFERENCES</h3>
+    <div>
+        
+        <div class="container-fluid table-responsive">
+            <table class=" table table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.References.First().NomPrenom)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.References.First().Fonction)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.References.First().Societe)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Renseignement.References.First().TelMail)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Renseignement.References)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NomPrenom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fonction)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Societe)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TelMail)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @*</div>*@
+    @*<div id="content3">*@
+    <div>
+        <h3>MOTIVATION</h3>
+        <div>
+            <label>
+                @Html.DisplayNameFor(model => model.Renseignement.Motivation.ExperisIt)
+            </label>
+        </div>
+        <p>
+            @Html.DisplayFor(model => model.Renseignement.Motivation.ExperisIt)
+        </p>
+        <div>
+            <label>
+                @Html.DisplayNameFor(model => model.Renseignement.Motivation.MotifRecherche)
+            </label>
+        </div>
+        <p>
+            @Html.DisplayFor(model => model.Renseignement.Motivation.MotifRecherche)
+        </p>
+        <div>
+            <label>
+                @Html.DisplayNameFor(model => model.Renseignement.Motivation.Objectif)
+            </label>
+        </div>
+        <p>
+            @Html.DisplayFor(model => model.Renseignement.Motivation.Objectif)
+        </p>
+    </div>
+
+    <br /><br /><br /><br /><br /><br />
+    <p style="text-align:justify">En transmettant ce dossier à Experis-IT, je certifie sur l'honneur l'exactitude des renseignements et des faits portés sur ce document et donne mon autorisation pour qu'ils soient conservés conformément aux dispositions de la loi n° 78-17 du 06 janvier 1978, relative à l'informatique, aux fichiers et aux libertés. Vous disposez d'un droit d'accès, de modification, de rectification et de suppression des données qui vous concernent. Pour l'exercer, adressez vous à Experis-IT Direction des Resources Humaines - Immeuble Eureka 13 rue ernest Renan - 92723 Nanterre Cedex.</p>
+
+</div>
+
+<div id="editor"></div>
+
+<br /><br /><br /><br />
+<button id="cmd">Generer le PDF</button>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="~/Scripts/JavaScript.js"></script>
+
+
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

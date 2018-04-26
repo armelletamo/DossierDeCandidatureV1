@@ -1,0 +1,73 @@
+﻿@model IEnumerable<DossierDeCandidature.Models.References>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <br /> <br /> <br />
+    <h2>VOS REFERENCES</h2>
+
+    <br /> <br /> <br />
+    <div class="container">
+        <div class="row">
+            <div class="form-inline">
+                @{
+                    int index = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    <div class="champs" id="d1">
+                        <input type="hidden" name="[@index].Id" value=@item.Id />
+                        <input type="hidden" name="[@index].RenseignementAdministratif.Id" value=@item.RenseignementAdministratif.Id />
+
+                        <div class="form-group">
+                            <label class="control-label">Nom/Prénom</label>
+                            <div>
+                                <input name="[@index].NomPrenom" class="form-control" value="@Model.ElementAt(index).NomPrenom" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Fonction</label>
+                            <div>
+                                <input name="[@index].Fonction" class="form-control" value="@Model.ElementAt(index).Fonction" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label">Sociéte</label>
+                            <div>
+                                <input name="[@index].Societe" class="form-control" value="@Model.ElementAt(index).Societe" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Tel/Mail</label>
+                            <div>
+                                <input name="[@index].TelMail" class="form-control" value="@Model.ElementAt(index).TelMail" type="email"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="~/Scripts/JavaScript.js"></script>
+
+                    <br />
+
+                    index++;
+                }
+                <div>
+                    <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    int ID = (int)Session["idRenseignement"];
+}
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

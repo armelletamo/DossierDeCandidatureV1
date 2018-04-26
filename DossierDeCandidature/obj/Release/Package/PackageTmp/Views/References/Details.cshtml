@@ -1,0 +1,50 @@
+﻿@model DossierDeCandidature.Models.References
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>References</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NomPrenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fonction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fonction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Societe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Societe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelMail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelMail)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

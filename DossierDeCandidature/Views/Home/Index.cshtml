@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/new_layout.cshtml";
+}
+<head>
+    <style>
+        body {
+            background-image: url('../../fonts/Image3.jpg');
+            color: white;
+        }
+
+        .id {
+            display: block;
+            width: 350px;
+            height: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+
+        p {
+            color: deepskyblue
+        }
+        .glyphicon {
+            font-size: 80px;
+        }
+        
+        #responsive {
+            display: inline-block;
+            position: relative;
+            width: 100%;            
+            background-size: contain;
+        }
+    </style>
+
+</head>
+@{ 
+    var date = DateTime.Now.ToString("dddd, d MMMM, yyyy");
+}
+<body>
+    <div class="container" id="responsive">
+        <div class="row">
+            <div class="id">
+
+                <img src="~/fonts/Image2.png" style="" class="img-responsive" />
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+
+            <div style="margin-left:30%;">
+                <div style="display:inline-block" class="glyphicon glyphicon-folder-open"></div>
+                <div style="display:inline-block; margin-left:3%;" class="text-center">
+                    <p style="font-size:xx-large;" >DOSSIER DE CANDIDATURE<p/>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div style="display:inline-block; font-size:large; margin-left:30%; color:deepskyblue; margin-right:2%;" class="text-center">DATE:</div>
+            <div style="display:inline-block; font-size:large">@date.</div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <input type="button" style="margin-left:30%;" class="btn btn-info" value="COMMENCER" onclick="location.href='@Url.Action("Create", "RenseignementAdministratifs")'" />
+
+        </div>
+        
+   </div>
+</body>

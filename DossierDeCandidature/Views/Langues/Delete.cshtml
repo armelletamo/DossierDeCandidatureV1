@@ -1,0 +1,61 @@
+﻿@model DossierDeCandidature.Models.Langues
+<style>
+    h3 {
+        color: Highlight
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    dt {
+        margin-right: 50px;
+        font-size: large;
+    }
+
+    dl {
+        display: inline;
+    }  
+</style>
+
+<br /><br /><br />
+<h3 class=" text-center">Êtes-vous sûr de vouloir supprimer cette langue ?</h3>
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Langue) :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NiveauLangue) :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NiveauLangue)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+
+            <input type="submit" value="Supprimer" class="btn btn-primary" />
+
+        </div>
+    }
+
+    @{
+        int ID = (int)Session["idRenseignement"];
+    }
+    <div class="form-actions no-color">
+        @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+    </div>
+</div>

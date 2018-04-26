@@ -1,0 +1,50 @@
+﻿@model DossierDeCandidature.Models.Experience
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Experience</h4>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Formation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Formation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diplome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diplome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ecole)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ecole)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnneeObtention)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnneeObtention)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

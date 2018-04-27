@@ -118,8 +118,12 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+            int? idRenseignement = (int)Session["idRenseignement"];
             Competences competences = await db.Competences.FindAsync(id);
+            if(competences==null || idRenseignement==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             db.Competences.Remove(competences);
             await db.SaveChangesAsync();
             return RedirectToAction("Verification", "Enregistrement");

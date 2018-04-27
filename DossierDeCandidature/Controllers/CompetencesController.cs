@@ -65,7 +65,7 @@ namespace DossierDeCandidature.Controllers
                     comp.Add(c);
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return HttpNotFound();
             }
@@ -174,7 +174,7 @@ namespace DossierDeCandidature.Controllers
                     }
                     return RedirectToAction("Verification", "Enregistrement");
                 }
-                catch(Exception ex)
+                catch(Exception )
                 {
                     return HttpNotFound();
                 }

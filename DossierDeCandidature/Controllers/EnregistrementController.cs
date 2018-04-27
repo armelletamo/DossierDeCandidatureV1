@@ -48,14 +48,14 @@ namespace DossierDeCandidature.Controllers
         {
             CandidatureVM cand = new CandidatureVM();
 
-            int id = (int)Session["idRenseignement"];
+            int? id = (int)Session["idRenseignement"];
 
 
-            //if (id==null)
-            //{
-
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
+            if (id == null)
+            {
+                //Session expiré, redirigé vers la page d'accueil
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             //Affectation de la propriété Renseignement de l'objet cand de type CandidatureVM
             var renseignementAdministratif = await db.RenseignementsAdministratifs
                .Where(x => x.Id == id)
@@ -66,11 +66,11 @@ namespace DossierDeCandidature.Controllers
                    .Include(x => x.References)
                     .Include(x => x.Motivation)
                     .FirstOrDefaultAsync();
-            cand.Renseignement = renseignementAdministratif;
             if (renseignementAdministratif == null)
             {
                 return HttpNotFound();
             }
+            cand.Renseignement = renseignementAdministratif;
             return View(cand);
         }
 

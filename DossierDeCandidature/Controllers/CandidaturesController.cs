@@ -15,7 +15,7 @@ namespace DossierDeCandidature.Controllers
     {
         private CandidatureContext db = new CandidatureContext();
 
-       
+
 
         // GET: Candidatures/Create
         public ActionResult Create()
@@ -32,15 +32,22 @@ namespace DossierDeCandidature.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 if (!candidature.mobilité)
                 {
                     candidature.Precision = "";
                 }
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                candidatures.Candidature = candidature;
-                Session["administratif"] = candidatures;
-                return RedirectToAction("Create", "Experiences");
+                try
+                {
+                    RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                    candidatures.Candidature = candidature;
+                    Session["administratif"] = candidatures;
+                    return RedirectToAction("Create", "Experiences");
+                }
+                catch(Exception ex)
+                {
+                    return View(candidature);
+                }
             }
 
             return View(candidature);
@@ -68,14 +75,14 @@ namespace DossierDeCandidature.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  ActionResult Edit([Bind(Include = "Id,Origine,Autre,statutActuel,PosteActuel,PosteSouhaite,Remuneration,RemunerationVoulu,Experience,Disponibilite,mobilité,Precision")] Candidature candidature)
+        public ActionResult Edit([Bind(Include = "Id,Origine,Autre,statutActuel,PosteActuel,PosteSouhaite,Remuneration,RemunerationVoulu,Experience,Disponibilite,mobilité,Precision")] Candidature candidature)
         {
             if (ModelState.IsValid)
             {
-                             
-                if(!candidature.mobilité)
-                    candidature.Precision="";
-                
+
+                if (!candidature.mobilité)
+                    candidature.Precision = "";
+
                 db.Entry(candidature).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -83,7 +90,7 @@ namespace DossierDeCandidature.Controllers
                 return RedirectToAction("Verification", "Enregistrement");
             }
             return View(candidature);
-        }       
+        }
 
         protected override void Dispose(bool disposing)
         {

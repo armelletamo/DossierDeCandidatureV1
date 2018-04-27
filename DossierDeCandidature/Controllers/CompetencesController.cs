@@ -13,7 +13,7 @@ namespace DossierDeCandidature.Controllers
 {
     public class CompetencesController : Controller
     {
-        private CandidatureContext db = new CandidatureContext();        
+        private CandidatureContext db = new CandidatureContext();
 
         // GET: Competences/Create
         public ActionResult Create()
@@ -54,21 +54,22 @@ namespace DossierDeCandidature.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
-            var renseignementAdministratif = await db.Competences
-                .Where(x => x.RenseignementAdministratif.Id == id)
-                     .Include("RenseignementAdministratif")
-                     .ToListAsync();
-            foreach (var c in renseignementAdministratif)
+            try
             {
-                comp.Add(c);
+                var renseignementAdministratif = await db.Competences
+                    .Where(x => x.RenseignementAdministratif.Id == id)
+                         .Include("RenseignementAdministratif")
+                         .ToListAsync();
+                foreach (var c in renseignementAdministratif)
+                {
+                    comp.Add(c);
+                }
             }
-
-
-            if (comp == null)
+            catch (Exception ex)
             {
                 return HttpNotFound();
             }
+
             return View(comp);
         }
 
@@ -117,8 +118,12 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+            int? idRenseignement = (int)Session["idRenseignement"];
             Competences competences = await db.Competences.FindAsync(id);
+            if(competences==null || idRenseignement==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             db.Competences.Remove(competences);
             await db.SaveChangesAsync();
             return RedirectToAction("Verification", "Enregistrement");
@@ -149,23 +154,31 @@ namespace DossierDeCandidature.Controllers
             var idRenseignement = (int)Session["idRenseignement"];
             if (ModelState.IsValid)
             {
-                var renseignementAdministratif = db.RenseignementsAdministratifs
-                .Where(x => x.Id == idRenseignement)
-                  .Include(x => x.Competences)
-                     .FirstOrDefault();
-                foreach (var item in comp)
+                try
                 {
-                    if (item.Competence != null)
+
+                    var renseignementAdministratif = db.RenseignementsAdministratifs
+                    .Where(x => x.Id == idRenseignement)
+                      .Include(x => x.Competences)
+                         .FirstOrDefault();
+                    foreach (var item in comp)
                     {
-                        db.Competences.Add(item);
-                        db.SaveChanges();
-                        renseignementAdministratif.Competences.Add(item);
-                        db.Entry(item).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (item.Competence != null)
+                        {
+                            db.Competences.Add(item);
+                            db.SaveChanges();
+                            renseignementAdministratif.Competences.Add(item);
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
+                    return RedirectToAction("Verification", "Enregistrement");
+                }
+                catch(Exception ex)
+                {
+                    return HttpNotFound();
                 }
 
-                return RedirectToAction("Verification", "Enregistrement");
             }
             return View("Ajouter");
         }

@@ -22,6 +22,10 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Enregistrement()
         {
             RenseignementAdministratif renseignementAdministratif = (RenseignementAdministratif)Session["administratif"];
+            if (renseignementAdministratif == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
             db.RenseignementsAdministratifs.Add(renseignementAdministratif);
             await db.SaveChangesAsync();
             string NewID = string.Empty;
@@ -31,9 +35,12 @@ namespace DossierDeCandidature.Controllers
                 Session["idRenseignement"] = Id;
                 NewID=Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             }
-            catch { }
-           
-            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+            catch (Exception ex)
+            {
+                return HttpNotFound();
+            }
+
+            return RedirectToAction("Verification", "Enregistrement");
 
         }
 
@@ -61,11 +68,11 @@ namespace DossierDeCandidature.Controllers
                    .Include(x => x.References)
                     .Include(x => x.Motivation)
                     .FirstOrDefaultAsync();
-            cand.Renseignement = renseignementAdministratif;
             if (renseignementAdministratif == null)
             {
                 return HttpNotFound();
             }
+            cand.Renseignement = renseignementAdministratif;
             return View(cand);
         }
 

@@ -14,7 +14,7 @@ namespace DossierDeCandidature.Controllers
     public class ReferencesController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-      
+
         // GET: References/Create
         public ActionResult Create()
         {
@@ -32,6 +32,11 @@ namespace DossierDeCandidature.Controllers
             if (ModelState.IsValid)
             {
                 RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                if (candidatures == null)
+                {
+
+                    return new HttpNotFoundResult();
+                }
                 foreach (var item in references)
                 {
 
@@ -59,7 +64,10 @@ namespace DossierDeCandidature.Controllers
                  .Where(x => x.RenseignementAdministratif.Id == id)
                       .Include("RenseignementAdministratif")
                       .ToListAsync();
-
+            if (compet == null)
+            {
+                return HttpNotFound();
+            }
             foreach (var v in compet)
             {
                 refe.Add(v);
@@ -79,7 +87,6 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
             ICollection<References> referencesNotNull = new List<References>();
             References reference = null;
             foreach (var item in references)
@@ -92,6 +99,10 @@ namespace DossierDeCandidature.Controllers
                 else
                 {
                     reference = db.References.Find(item.Id);
+                    if (reference == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.References.Remove(reference);
                     db.SaveChanges();
                 }
@@ -128,8 +139,12 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+
             References references = await db.References.FindAsync(id);
+            if (references == null)
+            {
+                return HttpNotFound();
+            }
             db.References.Remove(references);
             await db.SaveChangesAsync();
             return RedirectToAction("Verification", "Enregistrement");
@@ -157,23 +172,35 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Ajouter([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+            int? idRenseignement = (int)Session["idRenseignement"];
+            if (idRenseignement == null)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
-                var renseignementAdministratif = db.RenseignementsAdministratifs
-                .Where(x => x.Id == idRenseignement)
-                  .Include(x => x.References)
-                     .FirstOrDefault();
-                foreach (var item in references)
+                try
                 {
-                    if (!(item.NomPrenom == null && item.Societe == null && item.Fonction == null && item.TelMail == null))
+
+                    var renseignementAdministratif = db.RenseignementsAdministratifs
+                    .Where(x => x.Id == idRenseignement)
+                      .Include(x => x.References)
+                         .FirstOrDefault();
+                    foreach (var item in references)
                     {
-                        db.References.Add(item);
-                        db.SaveChanges();
-                        renseignementAdministratif.References.Add(item);
-                        db.Entry(item).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (!(item.NomPrenom == null && item.Societe == null && item.Fonction == null && item.TelMail == null))
+                        {
+                            db.References.Add(item);
+                            db.SaveChanges();
+                            renseignementAdministratif.References.Add(item);
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
+                }
+                catch(Exception ex)
+                {
+                    return HttpNotFound();
                 }
 
                 return RedirectToAction("Verification", "Enregistrement");

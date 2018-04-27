@@ -44,11 +44,11 @@ namespace DossierDeCandidature.Controllers
             int id = (int)Session["idRenseignement"];
 
 
-            if (id==null)
-            {
+            //if (id==null)
+            //{
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
             //Affectation de la propriété Renseignement de l'objet cand de type CandidatureVM
             var renseignementAdministratif = await db.RenseignementsAdministratifs
                .Where(x => x.Id == id)

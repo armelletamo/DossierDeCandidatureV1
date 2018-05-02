@@ -3,10 +3,11 @@
 @{
     var date = DateTime.Today.ToString("yyyy-MM-dd");
     var dateChoisie = Model.Disponibilite.ToString("dd-MM-yyyy");
+    var varID = Model.Id;
 }
 <script src="~/Scripts/JavaScript.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 
 
 @using (Html.BeginForm())
@@ -20,7 +21,8 @@
                 <h2 class="text-center">VOTRE CANDIDATURE</h2>
                 <br />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.Id)
+                <input type="hidden" name="Id" value="@varID" />
+                @*@Html.HiddenFor(model => model.Id)*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Origine, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -253,7 +255,7 @@
                         @{
                             int remunerationVoulue = (int)Model.RemunerationVoulu;
                         }
-                        <input name="RemunerationVoulu" class="form-control text-box single-line input-validation-error" id="RemunerationVoulu" type="text" value="remunerationVoulue" data-val-required="Le champ Rémunération annuelle souhaitée (euro) est requis." data-val-number="Le champ Rémunération annuelle souhaitée (euro) doit être un nombre." data-val="true">
+                        <input name="RemunerationVoulu" class="form-control text-box single-line input-validation-error" id="RemunerationVoulu" type="text" value="@remunerationVoulue" data-val-required="Le champ Rémunération annuelle souhaitée (euro) est requis." data-val-number="Le champ Rémunération annuelle souhaitée (euro) doit être un nombre." data-val="true">
                         @*@Html.EditorFor(model => model.RemunerationVoulu, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.RemunerationVoulu, "", new { @class = "text-danger" })
                     </div>
@@ -270,7 +272,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Disponibilite, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Disponibilite, new { htmlAttributes = new { @class = "form-control", @type = "text", @pattern = "d{1,2}/d{1,2}/d{4}" } })
+                        @Html.EditorFor(model => model.Disponibilite, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           @type = "text" ,
+                           @pattern = "d{1,2}/d{1,2}/d{4}"}
+                       })
                         @Html.ValidationMessageFor(model => model.Disponibilite, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -320,18 +329,23 @@
                 }
 
                 <div class="form-group">
-                    <input type="submit" value="Modifier" class="btn btn-primary" />
+                    <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        $('#Disponibilite').removeAttr("data-val-date");
+    </script>
 }
+
 @{
     int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
 }
 <div class="form-actions no-color">
-    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
 </div>
 
 @section Scripts {

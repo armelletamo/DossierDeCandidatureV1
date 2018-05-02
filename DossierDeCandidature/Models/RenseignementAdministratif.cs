@@ -54,6 +54,7 @@ namespace DossierDeCandidature.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{dd-MMM-yyyy}")]
         [Display(Name = "Date de naissance")]
         public DateTime DateNaiss { get; set; }
 
@@ -68,6 +69,7 @@ namespace DossierDeCandidature.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Date d'expiration")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{dd-MMM-yyyy}")]
         public DateTime? DateExpiration { get; set; }
 
         [Required]

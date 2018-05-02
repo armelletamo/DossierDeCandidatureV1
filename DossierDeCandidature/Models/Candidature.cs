@@ -31,11 +31,11 @@ namespace DossierDeCandidature.Models
         public string PosteSouhaite { get; set; }
 
         
-        [Display(Name = "Rémunération annuelle actuelle (euro)")]
+        [Display(Name = "Rémunération annuelle brute actuelle (euro)")]
         public decimal? Remuneration { get; set; }
 
         [Required]
-        [Display(Name = "Rémunération annuelle souhaitée (euro)")]
+        [Display(Name = "Rémunération annuelle brute souhaitée (euro)")]
         public decimal RemunerationVoulu { get; set; }
 
         [Required]
@@ -44,6 +44,7 @@ namespace DossierDeCandidature.Models
 
         [Required]
         [Display(Name = "Date de disponiblité")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Date)]
         public DateTime Disponibilite { get; set; }
 

@@ -24,7 +24,7 @@
                 <h2 class="text-center">RENSEIGNEMENTS ADMINISTRATIFS</h2>
                 <br />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <input type="hidden" name="Id" value="@varID"/>
+                <input type="hidden" name="Id" value="@varID" />
                 @*@Html.HiddenFor(model => model.Id, new { @value = varID })*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nom)<br />
@@ -107,7 +107,9 @@
                             @class = "form-control",
                             @max = date,
                             style = "width:200px",
-                            @type = "text"@*, @pattern = "d{1,2}/d{1,2}/d{4}"*@}
+                            @type = "text",
+                            @pattern = "d{1,2}/d{1,2}/d{4}"
+                        }
                     })<br />
                     @Html.ValidationMessageFor(model => model.DateNaiss, "", new { @class = "text-danger" })
                 </div>
@@ -143,7 +145,9 @@
                                     @class = "form-control",
                                     @min = date,
                                     style = "width:200px",
-                                    @type = "text"@*, @pattern = "d{1,2}/d{1,2}/d{4}"*@}
+                                    @type = "text",
+                                    @pattern = "d{1,2}/d{1,2}/d{4}"
+                                }
                             })<br />
                             @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
                             <br />
@@ -203,12 +207,17 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#DateExpiration').removeAttr("data-val-date");
+        $('#DateNaiss').removeAttr("data-val-date");
+    </script>
 }
 @{
     int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
 }
 <div class="form-actions no-color">
-    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

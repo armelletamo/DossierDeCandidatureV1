@@ -1,5 +1,7 @@
 ﻿@model DossierDeCandidature.Models.Experience
-
+@{ 
+    var varID = Model.Id;
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -11,8 +13,8 @@
                 <br />
                 <br />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.Id)
-
+                @*@Html.HiddenFor(model => model.Id)*@
+                <input type="hidden" name="Id" value="@varID" />
                 <div class="form-group">
                     @Html.LabelFor(model => model.Formation, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -137,7 +139,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Modifier" class="btn btn-primary" />
+                        <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
                     </div>
                 </div>
             </div>

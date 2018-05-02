@@ -37,6 +37,8 @@ namespace DossierDeCandidature.Controllers
                         competenceNotNull.Add(item);
                 }
                 RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                if (candidatures == null)
+                    return HttpNotFound();
                 candidatures.Competences = competenceNotNull;
                 Session["administratif"] = candidatures;
                 return RedirectToAction("Create", "References");

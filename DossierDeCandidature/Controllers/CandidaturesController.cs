@@ -46,7 +46,7 @@ namespace DossierDeCandidature.Controllers
                 }
                 catch(Exception )
                 {
-                    return View(candidature);
+                    return HttpNotFound();
                 }
             }
 

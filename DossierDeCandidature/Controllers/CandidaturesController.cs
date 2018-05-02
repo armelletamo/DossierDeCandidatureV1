@@ -77,6 +77,8 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Origine,Autre,statutActuel,PosteActuel,PosteSouhaite,Remuneration,RemunerationVoulu,Experience,Disponibilite,mobilité,Precision")] Candidature candidature)
         {
+            int Id = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             if (ModelState.IsValid)
             {
 
@@ -87,7 +89,7 @@ namespace DossierDeCandidature.Controllers
                 db.SaveChanges();
 
                 //return RedirectToAction("Index", "Home");
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(candidature);
         }

@@ -12,7 +12,7 @@
     label {
         color: Highlight;
     }
-    @{ 
+    @{
         int ID = Model.Renseignement.Id;
         string NewID=Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
     }
@@ -205,7 +205,7 @@
 
             </dl>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { Id = NewID }, null)
+                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { id = NewID }, null)
             </div>
         </div>
         @*</div>*@
@@ -317,7 +317,7 @@
 
             </dl>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "Candidatures", new { Id = Model.Renseignement.Id }, null)
+                @Html.ActionLink("modifier", "Edit", "Candidatures", new { id = NewID }, null)
             </div>
         </div>
         <div id="PageFormation">
@@ -453,7 +453,7 @@
 
                         @Html.ActionLink("modifier", "Edit", "Competences", new { Id = Model.Renseignement.Id }, null)
                     }
-                    |@Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = Model.Renseignement.Id }, null)
+                    @Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = Model.Renseignement.Id }, null)
                 </div>
             </div>
             <div id="PageReference">
@@ -509,10 +509,10 @@
                         @if (Model.Renseignement.References.Count > 0)
                         {
 
-                            @Html.ActionLink("modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null);
+                            @Html.ActionLink("modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null)
 
                         }
-                        |@Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = Model.Renseignement.Id }, null)
+                        @Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = Model.Renseignement.Id }, null)
                     </div>
                 </div>
             </div>
@@ -558,10 +558,11 @@
     <div id="editor"></div>
 
     <br /><br /><br /><br />
-                      <div id="link">
-                          @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
-                          @*<button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Convert.ToBase64String(BitConverter.GetBytes(Model.Renseignement.Id)).Replace("==", "")}, null )';return false;">Envoyer</button>*@
-                      </div>
+
+    <div id="link">
+        @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
+        @*<button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Convert.ToBase64String(BitConverter.GetBytes(Model.Renseignement.Id)).Replace("==", "")}, null )';return false;">Envoyer</button>*@
+    </div>
 
 </body>
 

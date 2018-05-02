@@ -32,6 +32,7 @@ namespace DossierDeCandidature.Controllers
             try
             {
                 int Id = (db.RenseignementsAdministratifs.Where(r => r.Secu == renseignementAdministratif.Secu).FirstOrDefault()).Id;
+                Session.Timeout = 40;
                 Session["idRenseignement"] = Id;
                 NewID=Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             }

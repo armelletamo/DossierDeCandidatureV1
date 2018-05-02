@@ -35,12 +35,12 @@ namespace DossierDeCandidature.Controllers
                 Session["idRenseignement"] = Id;
                 NewID=Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return HttpNotFound();
             }
 
-            return RedirectToAction("Verification", "Enregistrement");
+            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
 
         }
 

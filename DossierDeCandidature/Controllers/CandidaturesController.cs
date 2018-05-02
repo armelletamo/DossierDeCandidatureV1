@@ -44,7 +44,7 @@ namespace DossierDeCandidature.Controllers
                     Session["administratif"] = candidatures;
                     return RedirectToAction("Create", "Experiences");
                 }
-                catch(Exception ex)
+                catch(Exception )
                 {
                     return View(candidature);
                 }

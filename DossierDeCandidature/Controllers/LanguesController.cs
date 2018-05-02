@@ -82,7 +82,7 @@ namespace DossierDeCandidature.Controllers
                 }
                 return View(lang);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return HttpNotFound();
             }
@@ -187,7 +187,7 @@ namespace DossierDeCandidature.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     return new HttpNotFoundResult();
                 }

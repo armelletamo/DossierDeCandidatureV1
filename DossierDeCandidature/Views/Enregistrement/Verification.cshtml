@@ -205,7 +205,7 @@
 
             </dl>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { id = NewID }, null)
+                @Html.ActionLink("Modifier", "Edit", "RenseignementAdministratifs", new { id = NewID }, null)
             </div>
         </div>
         @*</div>*@
@@ -317,7 +317,7 @@
 
             </dl>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "Candidatures", new { id = NewID }, null)
+                @Html.ActionLink("Modifier", "Edit", "Candidatures", new { id = NewID }, null)
             </div>
         </div>
         <div id="PageFormation">
@@ -359,7 +359,7 @@
 
                 </dl>
                 <div id="link">
-                    @Html.ActionLink("modifier", "Edit", "Experiences", new { Id = Model.Renseignement.Id }, null)
+                    @Html.ActionLink("Modifier", "Edit", "Experiences", new { id = NewID }, null)
                 </div>
             </div>
         </div>
@@ -404,7 +404,7 @@
                 </table>
             </div>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "Langues", new { Id = Model.Renseignement.Id }, null)|
+                @Html.ActionLink("Modifier", "Edit", "Langues", new { Id = Model.Renseignement.Id }, null) |
                 @Html.ActionLink("Ajouter", "AjouterLangue", "Langues", new { Id = Model.Renseignement.Id }, null)
             </div>
         </div>
@@ -451,7 +451,8 @@
                     @if (Model.Renseignement.Competences.Count > 0)
                     {
 
-                        @Html.ActionLink("modifier", "Edit", "Competences", new { Id = Model.Renseignement.Id }, null)
+                        @Html.ActionLink("Modifier", "Edit", "Competences", new { Id = Model.Renseignement.Id }, null)
+                        <div style="display:inline-block">|</div>
                     }
                     @Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = Model.Renseignement.Id }, null)
                 </div>
@@ -509,7 +510,8 @@
                         @if (Model.Renseignement.References.Count > 0)
                         {
 
-                            @Html.ActionLink("modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null)
+                            @Html.ActionLink("Modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null)
+                            <div style="display:inline-block">|</div>
 
                         }
                         @Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = Model.Renseignement.Id }, null)
@@ -545,7 +547,7 @@
                     @Html.DisplayFor(model => model.Renseignement.Motivation.Objectif)
                 </p>
                 <div id="link">
-                    @Html.ActionLink("modifier", "Edit", "Motivations", new { Id = Model.Renseignement.Id }, null)
+                    @Html.ActionLink("Modifier", "Edit", "Motivations", new { Id = Model.Renseignement.Id }, null)
                 </div>
             </div>
 
@@ -559,10 +561,10 @@
 
     <br /><br /><br /><br />
 
-    <div id="link">
+    <button id="link" class="pull-right">
         @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
         @*<button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Convert.ToBase64String(BitConverter.GetBytes(Model.Renseignement.Id)).Replace("==", "")}, null )';return false;">Envoyer</button>*@
-    </div>
+    </button>
 
 </body>
 

@@ -40,13 +40,15 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: Experiences/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {                       
-            if (id == null)
+        public async Task<ActionResult> Edit(string id)
+        {
+            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID == null && ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Experience experience = await db.Experiences.FindAsync(id);
+            Experience experience = await db.Experiences.FindAsync(ID);
             if (experience == null)
             {
                 return HttpNotFound();
@@ -61,11 +63,13 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Formation,Diplome,Ecole,Annee")] Experience experience)
         {
+            int Id = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             if (ModelState.IsValid)
             {                
                 db.Entry(experience).State = EntityState.Modified;
                 db.SaveChanges();                
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(experience);
         }      

@@ -1,5 +1,5 @@
 ﻿@model DossierDeCandidature.Models.Experience
-@{ 
+@{
     var varID = Model.Id;
 }
 @using (Html.BeginForm())
@@ -19,96 +19,96 @@
                     @Html.LabelFor(model => model.Formation, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @if (Model.Formation == "< Bac")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac" selected>Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac" selected>Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "Bac")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac" selected>Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac" selected>Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "Bac + 2")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2" selected>Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2" selected>Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "Bac + 3")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3" selected>Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3" selected>Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "Bac + 4")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4" selected>Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4" selected>Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "Bac + 5")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5" selected>Bac + 5</option>
-                    <option value="> Bac + 5">Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5" selected>Bac + 5</option>
+                                <option value="> Bac + 5">Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @if (Model.Formation == "> Bac + 5")
-            {
-                <select class="form-control" name="Formation" style="text-align-last:center">
-                    <option value="" disabled>- Dernière formation -</option>
-                    <option value="< Bac">Inferieur au Bac</option>
-                    <option value="Bac">Bac</option>
-                    <option value="Bac + 2">Bac + 2</option>
-                    <option value="Bac + 3">Bac + 3</option>
-                    <option value="Bac + 4">Bac + 4</option>
-                    <option value="Bac + 5">Bac + 5</option>
-                    <option value="> Bac + 5" selected>Supérieur à Bac + 5</option>
-                </select>
-}
+                        {
+                            <select class="form-control" name="Formation" style="text-align-last:center">
+                                <option value="" disabled>- Dernière formation -</option>
+                                <option value="< Bac">Inferieur au Bac</option>
+                                <option value="Bac">Bac</option>
+                                <option value="Bac + 2">Bac + 2</option>
+                                <option value="Bac + 3">Bac + 3</option>
+                                <option value="Bac + 4">Bac + 4</option>
+                                <option value="Bac + 5">Bac + 5</option>
+                                <option value="> Bac + 5" selected>Supérieur à Bac + 5</option>
+                            </select>
+                        }
                         @Html.ValidationMessageFor(model => model.Formation, "", new { @class = "text-danger" })
                     </div>
                 </div>

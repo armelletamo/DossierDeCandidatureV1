@@ -192,6 +192,8 @@
     <Content Include="Content\styleMotivation.css" />
     <Content Include="Content\styleVerif.css" />
     <Content Include="Content\styleVerifPrint.css" />
+    <Content Include="css\msdropdown\dd.css" />
+    <Content Include="css\msdropdown\flags.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Image1.jpg" />

@@ -394,6 +394,8 @@
                                 <td id="link">
                                     @if (item.Langue != Model.Renseignement.Langues.First().Langue)
                                     {
+                                        int? x = item.Id;
+                                        string idToDelete= Convert.ToBase64String(BitConverter.GetBytes(x.Value)).Replace("==", "");
                                         @Html.ActionLink("Supprimer", "Delete", "Langues", new { Id = item.Id }, null)
                                     }
                                 </td>
@@ -404,8 +406,8 @@
                 </table>
             </div>
             <div id="link">
-                @Html.ActionLink("Modifier", "Edit", "Langues", new { Id = Model.Renseignement.Id }, null) |
-                @Html.ActionLink("Ajouter", "AjouterLangue", "Langues", new { Id = Model.Renseignement.Id }, null)
+                @Html.ActionLink("Modifier", "Edit", "Langues", new { Id = NewID }, null) |
+                @Html.ActionLink("Ajouter", "AjouterLangue", "Langues", new { Id = NewID }, null)
             </div>
         </div>
     </form>

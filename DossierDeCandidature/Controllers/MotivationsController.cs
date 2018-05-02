@@ -32,6 +32,8 @@ namespace DossierDeCandidature.Controllers
             if (ModelState.IsValid)
             {
                 RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                if(candidatures==null)
+                    return HttpNotFound();
                 candidatures.Motivation = motivation;
                 Session["administratif"] = candidatures;
                 return RedirectToAction("Enregistrement", "Enregistrement");

@@ -187,7 +187,7 @@ namespace DossierDeCandidature.Controllers
                         }
                     }
                 }
-                catch (Exception )
+                catch
                 {
                     return new HttpNotFoundResult();
                 }

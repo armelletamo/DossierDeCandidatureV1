@@ -558,9 +558,10 @@
     <div id="editor"></div>
 
     <br /><br /><br /><br />
-    <div id="link">        
-        <button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Model.Renseignement.Id }, null)';return false;">Envoyer</button>
-    </div>
+                      <div id="link">
+                          @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
+                          @*<button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Convert.ToBase64String(BitConverter.GetBytes(Model.Renseignement.Id)).Replace("==", "")}, null )';return false;">Envoyer</button>*@
+                      </div>
 
 </body>
 

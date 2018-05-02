@@ -14,7 +14,7 @@ namespace DossierDeCandidature.Controllers
     public class LanguesController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-          
+
 
         // GET: Langues/Create
         public ActionResult Create()
@@ -32,12 +32,18 @@ namespace DossierDeCandidature.Controllers
             ICollection<Langues> languesNotNull = new List<Langues>();
             if (ModelState.IsValid)
             {
-                foreach(var item in langues)
+                foreach (var item in langues)
                 {
                     if (item.Langue != null)
                         languesNotNull.Add(item);
                 }
                 RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                if (candidatures == null)
+                {
+                    //Session inexistante ou Expiré, redirigé vers la page d'accueil
+                    return new HttpNotFoundResult();
+
+                }
                 candidatures.Langues = languesNotNull;
                 Session["administratif"] = candidatures;
                 return RedirectToAction("Create", "Competences");
@@ -57,21 +63,29 @@ namespace DossierDeCandidature.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session["idRenseignement"] = id;
-            var renseignementAdministratif = await db.Langues
-                .Where(x => x.RenseignementAdministratif.Id == id)
-                     .Include("RenseignementAdministratif")
-                     .ToListAsync();
-            foreach (var c in renseignementAdministratif)
+            try
             {
-                lang.Add(c);
+
+                var renseignementAdministratif = await db.Langues
+                    .Where(x => x.RenseignementAdministratif.Id == id)
+                         .Include("RenseignementAdministratif")
+                         .ToListAsync();
+                foreach (var c in renseignementAdministratif)
+                {
+                    lang.Add(c);
+                }
+
+
+                if (lang == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(lang);
             }
-
-
-            if (lang == null)
+            catch (Exception )
             {
                 return HttpNotFound();
             }
-            return View(lang);
         }
 
         // POST: Langues/Edit/5
@@ -81,7 +95,7 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+
             if (ModelState.IsValid)
             {
                 foreach (var item in langues)
@@ -118,8 +132,11 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
             Langues langues = await db.Langues.FindAsync(id);
+            if (langues == null)
+            {
+                return HttpNotFound();
+            }
             db.Langues.Remove(langues);
             await db.SaveChangesAsync();
             return RedirectToAction("Verification", "Enregistrement");
@@ -151,22 +168,29 @@ namespace DossierDeCandidature.Controllers
             var idRenseignement = (int)Session["idRenseignement"];
             if (ModelState.IsValid)
             {
-                var renseignementAdministratif = db.RenseignementsAdministratifs
-                .Where(x => x.Id == idRenseignement)
-                  .Include(x => x.Langues)
-                     .FirstOrDefault();
-                foreach (var item in langues)
+                try
                 {
-                    if (item.Langue != null)
+                    var renseignementAdministratif = db.RenseignementsAdministratifs
+                    .Where(x => x.Id == idRenseignement)
+                      .Include(x => x.Langues)
+                         .FirstOrDefault();
+
+                    foreach (var item in langues)
                     {
-                        db.Langues.Add(item);
-                        db.SaveChanges();
-                        renseignementAdministratif.Langues.Add(item);
-                        db.Entry(item).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (item.Langue != null)
+                        {
+                            db.Langues.Add(item);
+                            db.SaveChanges();
+                            renseignementAdministratif.Langues.Add(item);
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
                 }
-
+                catch (Exception )
+                {
+                    return new HttpNotFoundResult();
+                }
                 return RedirectToAction("Verification", "Enregistrement");
             }
             return View("AjouterLangue");

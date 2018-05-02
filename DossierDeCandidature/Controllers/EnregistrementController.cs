@@ -22,36 +22,45 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Enregistrement()
         {
             RenseignementAdministratif renseignementAdministratif = (RenseignementAdministratif)Session["administratif"];
+            if (renseignementAdministratif == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
             db.RenseignementsAdministratifs.Add(renseignementAdministratif);
             await db.SaveChangesAsync();
+            string NewID = string.Empty;
             try
             {
                 int Id = (db.RenseignementsAdministratifs.Where(r => r.Secu == renseignementAdministratif.Secu).FirstOrDefault()).Id;
                 Session["idRenseignement"] = Id;
+                NewID=Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             }
-            catch { }
-           
-            return RedirectToAction("Verification", "Enregistrement");
+            catch (Exception)
+            {
+                return HttpNotFound();
+            }
+
+            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
 
         }
 
         //Affichage des données de l'utilisateur pour vérification
 
-        public async Task<ActionResult> Verification()
+        public async Task<ActionResult> Verification(string id)
         {
             CandidatureVM cand = new CandidatureVM();
 
-            int id = (int)Session["idRenseignement"];
+            //int Id = (int)Session["idRenseignement"];
 
-
-            //if (id==null)
-            //{
-
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
+            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            //int Id = (int)Session["idRenseignement"];
+            if (ID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             //Affectation de la propriété Renseignement de l'objet cand de type CandidatureVM
             var renseignementAdministratif = await db.RenseignementsAdministratifs
-               .Where(x => x.Id == id)
+               .Where(x => x.Id == ID)
                .Include(x => x.Candidature)
                 .Include(x => x.Experience)
                  .Include(x => x.Langues)
@@ -59,16 +68,16 @@ namespace DossierDeCandidature.Controllers
                    .Include(x => x.References)
                     .Include(x => x.Motivation)
                     .FirstOrDefaultAsync();
-            cand.Renseignement = renseignementAdministratif;
             if (renseignementAdministratif == null)
             {
                 return HttpNotFound();
             }
+            cand.Renseignement = renseignementAdministratif;
             return View(cand);
         }
 
         //Generation du pdf et envoi par mail
-        public ActionResult PrintRenseignement()
+        public ActionResult PrintRenseignement(string Stringid)
         {
             int ID = (int)Session["idRenseignement"];
             var renseignementAdministratif = db.RenseignementsAdministratifs
@@ -81,7 +90,8 @@ namespace DossierDeCandidature.Controllers
                     .Include(x => x.Motivation)
                     .FirstOrDefault();
             string nom = renseignementAdministratif.Nom + " " + renseignementAdministratif.Prenom;
-            var report = new ActionAsPdf("Verification", new { Id = ID });
+            
+            var report = new ActionAsPdf("Verification", new { id = Stringid });
             report.PageOrientation = Rotativa.Options.Orientation.Portrait;
             report.FileName = "Dossier_De_Candidature.pdf";
             report.PageSize = Rotativa.Options.Size.A4;

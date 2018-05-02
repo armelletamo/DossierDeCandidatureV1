@@ -89,6 +89,10 @@ namespace DossierDeCandidature.Controllers
                    .Include(x => x.References)
                     .Include(x => x.Motivation)
                     .FirstOrDefault();
+            if(renseignementAdministratif==null)
+            {
+                return new HttpNotFoundResult();
+            }
             string nom = renseignementAdministratif.Nom + " " + renseignementAdministratif.Prenom;
             
             var report = new ActionAsPdf("Verification", new { id = Stringid });
@@ -127,11 +131,11 @@ namespace DossierDeCandidature.Controllers
             smtp.Port = 587;
             try
             {
-
                 smtp.Send(mm);
             }
             catch (Exception)
             {
+                //erreur d'envoie du mail
                 return report;
             }
             //*********************************************

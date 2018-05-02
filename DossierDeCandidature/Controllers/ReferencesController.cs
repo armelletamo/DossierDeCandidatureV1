@@ -198,7 +198,7 @@ namespace DossierDeCandidature.Controllers
                         }
                     }
                 }
-                catch(Exception ex)
+                catch
                 {
                     return HttpNotFound();
                 }

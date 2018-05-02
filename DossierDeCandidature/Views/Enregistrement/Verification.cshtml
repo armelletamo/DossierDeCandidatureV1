@@ -12,6 +12,10 @@
     label {
         color: Highlight;
     }
+    @{ 
+        int ID = Model.Renseignement.Id;
+        string NewID=Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
+    }
 </style>
 <link href="~/Content/styleVerif.css" rel="stylesheet" />
 <link href="~/Content/styleVerifPrint.css" rel="stylesheet" media="print" />
@@ -201,7 +205,7 @@
 
             </dl>
             <div id="link">
-                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { Id = Model.Renseignement.Id }, null)
+                @Html.ActionLink("modifier", "Edit", "RenseignementAdministratifs", new { Id = NewID }, null)
             </div>
         </div>
         @*</div>*@

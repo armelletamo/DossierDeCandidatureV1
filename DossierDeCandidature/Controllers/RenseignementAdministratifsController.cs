@@ -41,14 +41,15 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: RenseignementAdministratifs/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
-            
-            if (id == null)
+            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id || ID==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RenseignementAdministratif renseignementAdministratif = await db.RenseignementsAdministratifs.FindAsync(id);
+            RenseignementAdministratif renseignementAdministratif = await db.RenseignementsAdministratifs.FindAsync(ID);
             if (renseignementAdministratif == null)
             {
                 return HttpNotFound();

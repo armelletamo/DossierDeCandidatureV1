@@ -47,15 +47,15 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: Candidatures/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
-            RenseignementAdministratifsController rens = new RenseignementAdministratifsController();            
-
-            if (id == null)
+            int? ID=BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID == null && ID!=Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Candidature candidature = await db.Candidatures.FindAsync(id);
+            Candidature candidature = await db.Candidatures.FindAsync(ID);
             if (candidature == null)
             {
                 return HttpNotFound();

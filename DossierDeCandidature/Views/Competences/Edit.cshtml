@@ -88,7 +88,7 @@
                 <br /> <br /> <br /> <br />
 
                 <div>
-                    <input type="submit" value="Modifier" class="btn btn-primary" />
+                    <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
                 </div>
             </div>
         </div>
@@ -97,10 +97,12 @@
 }
 @{
     int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
 }
-<div class="form-actions no-color">
-    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
-</div>
+    <div class="form-actions no-color">
+        @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
+        
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

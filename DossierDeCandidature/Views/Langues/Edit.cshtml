@@ -17,6 +17,7 @@
 </style>
 @{
     var varID = Model.Select(x => x.RenseignementAdministratif.Id).FirstOrDefault();
+    var niveau = Model.Where(x => x.Langue == "Anglais").Select(x => x.NiveauLangue).FirstOrDefault();
 }
 @using (Html.BeginForm())
 {
@@ -41,11 +42,31 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Niveau Langue</label>
-                        <select class="form-control" name="[0].NiveauLangue">
-                            <option value="Non opérationnel"> Non opérationnel </option>
-                            <option value="Opérationnel">Opérationnel</option>
-                            <option value="Courant">Courant</option>
-                        </select>
+                        @if (niveau == "Non opérationnel")
+                        {
+                            <select class="form-control" name="[0].NiveauLangue">
+                                <option value="Non opérationnel" selected> Non opérationnel </option>
+                                <option value="Opérationnel">Opérationnel</option>
+                                <option value="Courant">Courant</option>
+                            </select>
+                        }
+
+                        @if (niveau == "Opérationnel")
+                        {
+                            <select class="form-control" name="[0].NiveauLangue">
+                                <option value="Non opérationnel"> Non opérationnel </option>
+                                <option value="Opérationnel" selected>Opérationnel</option>
+                                <option value="Courant">Courant</option>
+                            </select>
+                        }
+                        @if (niveau == "Courant")
+                        {
+                            <select class="form-control" name="[0].NiveauLangue">
+                                <option value="Non opérationnel"> Non opérationnel </option>
+                                <option value="Opérationnel">Opérationnel</option>
+                                <option value="Courant" selected>Courant</option>
+                            </select>
+                        }
                     </div>
                     <br />
                     @{
@@ -105,7 +126,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div >
+                    <div>
                         <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
                     </div>
                 </div>

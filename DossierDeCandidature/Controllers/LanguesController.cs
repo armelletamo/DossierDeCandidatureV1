@@ -82,7 +82,7 @@ namespace DossierDeCandidature.Controllers
                 }
                 return View(lang);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return HttpNotFound();
             }
@@ -107,20 +107,18 @@ namespace DossierDeCandidature.Controllers
                         db.SaveChanges();
                     }
                 }
-                
+
                 return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(langues);
         }
 
         // GET: Langues/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string Id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Langues langues = await db.Langues.FindAsync(id);
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
+
+            Langues langues = await db.Langues.FindAsync(ID);
             if (langues == null)
             {
                 return HttpNotFound();
@@ -131,16 +129,21 @@ namespace DossierDeCandidature.Controllers
         // POST: Langues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string Id)
         {
-            Langues langues = await db.Langues.FindAsync(id);
-            if (langues == null)
+            var idRenseignement = (int)Session["idRenseignement"];
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
+            Langues langues = await db.Langues.FindAsync(ID);
+            if (langues == null || ID != idRenseignement)
             {
                 return HttpNotFound();
             }
             db.Langues.Remove(langues);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement");
+
+
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
         }
 
         protected override void Dispose(bool disposing)
@@ -153,9 +156,15 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: Langues/AjouterLangue
-        public ActionResult AjouterLangue(int? id)
+        public ActionResult AjouterLangue(string id)
         {
-            Session["idRenseignement"] = id;
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             return View();
         }
 
@@ -167,6 +176,7 @@ namespace DossierDeCandidature.Controllers
         public ActionResult AjouterLangue([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
             var idRenseignement = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {
                 try
@@ -192,7 +202,7 @@ namespace DossierDeCandidature.Controllers
                 {
                     return new HttpNotFoundResult();
                 }
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View("AjouterLangue");
         }

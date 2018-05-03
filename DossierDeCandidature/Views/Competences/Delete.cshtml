@@ -45,9 +45,9 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-                <br />
+                <br /><br /> <br /><br />
                 <div class="form-actions no-color">
-                    <input type="submit" value="Supprimer" class="btn btn-primary" />
+                    <input type="submit" value="Supprimer" class="btn btn-primary pull-right" />
                 </div>
             }
         </dd>
@@ -56,8 +56,9 @@
 
     @{
         int ID = (int)Session["idRenseignement"];
+        string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
     }
     <div class="form-actions no-color">
-        @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+        @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
     </div>
 </div>

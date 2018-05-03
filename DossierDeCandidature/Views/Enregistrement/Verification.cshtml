@@ -208,8 +208,7 @@
                 @Html.ActionLink("Modifier", "Edit", "RenseignementAdministratifs", new { id = NewID }, null)
             </div>
         </div>
-        @*</div>*@
-        @*<div id="content1">*@
+        
         <h3>VOTRE CANDIDATURE</h3>
         <div id="renseignement">
             <dl class="dl-horizontal">
@@ -364,8 +363,7 @@
             </div>
         </div>
 
-        @*</div>*@
-        @*<div id="content2">*@
+       
         <div id="langueTableau">
             <h3>VOS LANGUES</h3>
             <div class="container-fluid table-responsive">
@@ -394,9 +392,9 @@
                                 <td id="link">
                                     @if (item.Langue != Model.Renseignement.Langues.First().Langue)
                                     {
-                                        int? x = item.Id;
-                                        string idToDelete= Convert.ToBase64String(BitConverter.GetBytes(x.Value)).Replace("==", "");
-                                        @Html.ActionLink("Supprimer", "Delete", "Langues", new { Id = item.Id }, null)
+                                        int x = (int)item.Id;
+                                        string idToDelete = Convert.ToBase64String(BitConverter.GetBytes(x)).Replace("==", "");
+                                        @Html.ActionLink("Supprimer", "Delete", "Langues", new { Id = idToDelete }, null)
                                     }
                                 </td>
                             </tr>
@@ -441,7 +439,12 @@
                                         @Html.DisplayFor(modelItem => item.NiveauCompetence)
                                     </td>
                                     <td id="link">
-                                        @Html.ActionLink("Supprimer", "Delete", "Competences", new { Id = item.Id }, null)
+                                        @{
+                                            int x = (int)item.Id;
+                                            string idToDelete = Convert.ToBase64String(BitConverter.GetBytes(x)).Replace("==", "");
+                                        }
+
+                                        @Html.ActionLink("Supprimer", "Delete", "Competences", new { Id = idToDelete }, null)
                                     </td>
                                 </tr>
                             }
@@ -453,10 +456,10 @@
                     @if (Model.Renseignement.Competences.Count > 0)
                     {
 
-                        @Html.ActionLink("Modifier", "Edit", "Competences", new { Id = Model.Renseignement.Id }, null)
+                        @Html.ActionLink("Modifier", "Edit", "Competences", new { Id = NewID }, null)
                         <div style="display:inline-block">|</div>
                     }
-                    @Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = Model.Renseignement.Id }, null)
+                    @Html.ActionLink("Ajouter", "Ajouter", "Competences", new { Id = NewID }, null)
                 </div>
             </div>
             <div id="PageReference">
@@ -520,8 +523,7 @@
                     </div>
                 </div>
             </div>
-            @*</div>*@
-            @*<div id="content3">*@
+           
             <h3>VOTRE MOTIVATION</h3>
             <div id="renseignement">
                 <div>
@@ -565,7 +567,7 @@
 
     <button id="link" class="pull-right">
         @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
-        @*<button onclick="location.href='@Url.Action("PrintRenseignement", "Enregistrement",new { Id = Convert.ToBase64String(BitConverter.GetBytes(Model.Renseignement.Id)).Replace("==", "")}, null )';return false;">Envoyer</button>*@
+        
     </button>
 
 </body>

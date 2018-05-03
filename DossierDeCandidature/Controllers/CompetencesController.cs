@@ -47,11 +47,13 @@ namespace DossierDeCandidature.Controllers
             return View(competences);
         }
         // GET: Competences/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
             List<Competences> comp = new List<Competences>();
 
-            if (id == null)
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -59,7 +61,7 @@ namespace DossierDeCandidature.Controllers
             try
             {
                 var renseignementAdministratif = await db.Competences
-                    .Where(x => x.RenseignementAdministratif.Id == id)
+                    .Where(x => x.RenseignementAdministratif.Id == ID)
                          .Include("RenseignementAdministratif")
                          .ToListAsync();
                 foreach (var c in renseignementAdministratif)
@@ -83,6 +85,8 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Edit([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
             var idRenseignement = (int)Session["idRenseignement"];
+           
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {
                 foreach (var item in comp)
@@ -93,7 +97,7 @@ namespace DossierDeCandidature.Controllers
                         db.SaveChanges();
                     }
                 }
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(comp);
         }
@@ -101,13 +105,11 @@ namespace DossierDeCandidature.Controllers
 
 
         // GET: Competences/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Competences competences = await db.Competences.FindAsync(id);
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+
+            Competences competences = await db.Competences.FindAsync(ID);
             if (competences == null)
             {
                 return HttpNotFound();
@@ -118,17 +120,19 @@ namespace DossierDeCandidature.Controllers
         // POST: Competences/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            int? idRenseignement = (int)Session["idRenseignement"];
-            Competences competences = await db.Competences.FindAsync(id);
-            if(competences==null || idRenseignement==null)
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int idRenseignement = (int)Session["idRenseignement"];
+            Competences competences = await db.Competences.FindAsync(ID);
+            if(competences==null || ID != idRenseignement)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             db.Competences.Remove(competences);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement");
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
         }
 
         protected override void Dispose(bool disposing)
@@ -140,9 +144,14 @@ namespace DossierDeCandidature.Controllers
             base.Dispose(disposing);
         }
         // GET: Competances/AjouterCompetences
-        public ActionResult Ajouter(int? id)
+        public ActionResult Ajouter(string id)
         {
-            Session["idRenseignement"] = id;
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View("Ajouter");
         }
 
@@ -154,6 +163,7 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Ajouter([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
             var idRenseignement = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {
                 try
@@ -174,7 +184,7 @@ namespace DossierDeCandidature.Controllers
                             db.SaveChanges();
                         }
                     }
-                    return RedirectToAction("Verification", "Enregistrement");
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
                 catch(Exception )
                 {

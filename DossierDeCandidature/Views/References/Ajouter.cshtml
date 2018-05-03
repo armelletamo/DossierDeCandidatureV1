@@ -41,13 +41,14 @@
                     <div class="form-group">
                         <label class="control-label">Tel/Mail</label>
                         <div>
-                            <input name="[0].TelMail" class="form-control" type="email"/>
+                            <input name="[0].TelMail" class="form-control" />
                         </div>
                     </div>
                 </div>
 
                 <script src="~/Scripts/JavaScript.js"></script>
 
+                <br />
                 <br />
                 <br />
                 <br />
@@ -62,9 +63,10 @@
 <button id="btn1" class="btn btn-default" style="background-color:darkgrey">Ajouter</button>
 @{
     int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
 }
 <div class="form-actions no-color">
-    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

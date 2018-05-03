@@ -125,7 +125,7 @@ namespace DossierDeCandidature.Controllers
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
             int idRenseignement = (int)Session["idRenseignement"];
             Competences competences = await db.Competences.FindAsync(ID);
-            if(competences==null || ID != idRenseignement)
+            if(competences==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

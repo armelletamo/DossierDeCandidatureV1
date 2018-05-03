@@ -14,7 +14,7 @@ namespace DossierDeCandidature.Controllers
     public class ReferencesController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-
+        
         // GET: References/Create
         public ActionResult Create()
         {
@@ -52,16 +52,18 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: References/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
 
             List<References> refe = new List<References>();
-            if (id == null)
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var compet = await db.References
-                 .Where(x => x.RenseignementAdministratif.Id == id)
+                 .Where(x => x.RenseignementAdministratif.Id == ID)
                       .Include("RenseignementAdministratif")
                       .ToListAsync();
             if (compet == null)
@@ -88,6 +90,9 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Edit([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
             ICollection<References> referencesNotNull = new List<References>();
+            var idRenseignement = (int)Session["idRenseignement"];
+
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             References reference = null;
             foreach (var item in references)
             {
@@ -114,19 +119,17 @@ namespace DossierDeCandidature.Controllers
                     db.Entry(item).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(references);
         }
 
         // GET: References/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            References references = await db.References.FindAsync(id);
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            
+            References references = await db.References.FindAsync(ID);
             if (references == null)
             {
                 return HttpNotFound();
@@ -137,17 +140,20 @@ namespace DossierDeCandidature.Controllers
         // POST: References/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int idRenseignement = (int)Session["idRenseignement"];
 
-            References references = await db.References.FindAsync(id);
+            References references = await db.References.FindAsync(ID);
             if (references == null)
             {
                 return HttpNotFound();
             }
             db.References.Remove(references);
             await db.SaveChangesAsync();
-            return RedirectToAction("Verification", "Enregistrement");
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
         }
 
         protected override void Dispose(bool disposing)
@@ -159,9 +165,14 @@ namespace DossierDeCandidature.Controllers
             base.Dispose(disposing);
         }
         // GET: References/Ajouter
-        public ActionResult Ajouter(int? id)
+        public ActionResult Ajouter(string id)
         {
-            Session["idRenseignement"] = id;
+            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID != Id)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View("Ajouter");
         }
 
@@ -172,11 +183,9 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Ajouter([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
-            int? idRenseignement = (int)Session["idRenseignement"];
-            if (idRenseignement == null)
-            {
-                return HttpNotFound();
-            }
+            var idRenseignement = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+            
             if (ModelState.IsValid)
             {
                 try
@@ -203,7 +212,7 @@ namespace DossierDeCandidature.Controllers
                     return HttpNotFound();
                 }
 
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View("Ajouter");
         }

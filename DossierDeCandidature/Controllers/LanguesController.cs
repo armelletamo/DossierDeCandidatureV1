@@ -134,7 +134,7 @@ namespace DossierDeCandidature.Controllers
             var idRenseignement = (int)Session["idRenseignement"];
             int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
             Langues langues = await db.Langues.FindAsync(ID);
-            if (langues == null || ID != idRenseignement)
+            if (langues == null)
             {
                 return HttpNotFound();
             }

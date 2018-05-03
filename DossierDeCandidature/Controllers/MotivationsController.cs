@@ -44,14 +44,16 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: Motivations/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
 
-            if (id == null)
+            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int Id = (int)Session["idRenseignement"];
+            if (ID == null && ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Motivation motivation = await db.Motivations.FindAsync(id);
+            Motivation motivation = await db.Motivations.FindAsync(ID);
             if (motivation == null)
             {
                 return HttpNotFound();
@@ -66,12 +68,13 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ExperisIt,MotifRecherche,Objectif")] Motivation motivation)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+            int Id = (int)Session["idRenseignement"];
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             if (ModelState.IsValid)
             {
                 db.Entry(motivation).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Verification", "Enregistrement");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
             return View(motivation);
         }

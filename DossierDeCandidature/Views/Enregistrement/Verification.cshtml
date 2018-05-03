@@ -208,7 +208,7 @@
                 @Html.ActionLink("Modifier", "Edit", "RenseignementAdministratifs", new { id = NewID }, null)
             </div>
         </div>
-        
+
         <h3>VOTRE CANDIDATURE</h3>
         <div id="renseignement">
             <dl class="dl-horizontal">
@@ -363,7 +363,7 @@
             </div>
         </div>
 
-       
+
         <div id="langueTableau">
             <h3>VOS LANGUES</h3>
             <div class="container-fluid table-responsive">
@@ -503,7 +503,12 @@
                                             @Html.DisplayFor(modelItem => item.TelMail)
                                         </td>
                                         <td id="link">
-                                            @Html.ActionLink("Supprimer", "Delete", "References", new { Id = item.Id }, null)
+                                            @{
+                                                int x = (int)item.Id;
+                                                string idToDelete = Convert.ToBase64String(BitConverter.GetBytes(x)).Replace("==", "");
+                                            }
+
+                                            @Html.ActionLink("Supprimer", "Delete", "References", new { Id = idToDelete }, null)
                                         </td>
                                     </tr>
                                 }
@@ -515,15 +520,15 @@
                         @if (Model.Renseignement.References.Count > 0)
                         {
 
-                            @Html.ActionLink("Modifier", "Edit", "references", new { Id = Model.Renseignement.Id }, null)
+                            @Html.ActionLink("Modifier", "Edit", "references", new { Id = NewID }, null)
                             <div style="display:inline-block">|</div>
 
                         }
-                        @Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = Model.Renseignement.Id }, null)
+                        @Html.ActionLink("Ajouter", "Ajouter", "references", new { Id = NewID }, null)
                     </div>
                 </div>
             </div>
-           
+
             <h3>VOTRE MOTIVATION</h3>
             <div id="renseignement">
                 <div>
@@ -551,7 +556,7 @@
                     @Html.DisplayFor(model => model.Renseignement.Motivation.Objectif)
                 </p>
                 <div id="link">
-                    @Html.ActionLink("Modifier", "Edit", "Motivations", new { Id = Model.Renseignement.Id }, null)
+                    @Html.ActionLink("Modifier", "Edit", "Motivations", new { Id = NewID }, null)
                 </div>
             </div>
 
@@ -567,7 +572,7 @@
 
     <button id="link" class="pull-right">
         @Html.ActionLink("ENVOYER", "PrintRenseignement", "Enregistrement", new { Stringid = NewID }, null)
-        
+
     </button>
 
 </body>

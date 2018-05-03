@@ -16,7 +16,7 @@ namespace DossierDeCandidature.Models
         public string Fonction { get; set; }
         [Display(Name = "Société")]
         public string Societe { get; set; }
-        [EmailAddress(ErrorMessage = "Email invalide")]
+        
         [Display(Name = "Tel/Mail")]
         public string TelMail { get; set; }
        

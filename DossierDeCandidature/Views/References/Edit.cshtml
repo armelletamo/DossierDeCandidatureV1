@@ -14,6 +14,7 @@
                 @{
                     int index = 0;
                 }
+
                 @foreach (var item in Model)
                 {
                     <div class="champs" id="d1">
@@ -42,7 +43,7 @@
                         <div class="form-group">
                             <label class="control-label">Tel/Mail</label>
                             <div>
-                                <input name="[@index].TelMail" class="form-control" value="@Model.ElementAt(index).TelMail" type="email"/>
+                                <input name="[@index].TelMail" class="form-control" value="@Model.ElementAt(index).TelMail" />
                             </div>
                         </div>
                     </div>
@@ -53,6 +54,7 @@
 
                     index++;
                 }
+                <br /> <br /> <br /> <br />
                 <div>
                     <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
                 </div>
@@ -63,9 +65,11 @@
 
 @{
     int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
 }
 <div class="form-actions no-color">
-    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = ID }, null)
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
+
 </div>
 
 @section Scripts {

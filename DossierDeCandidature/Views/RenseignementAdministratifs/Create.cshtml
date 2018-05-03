@@ -13,6 +13,11 @@
 <link href="~/css/msdropdown/dd.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.dd.min.js"></script>
 <link href="~/css/msdropdown/flags.css" rel="stylesheet" />
+
+@*script pour l'autocomplétion de la ville et CP'*@
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet" />
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -391,5 +396,63 @@
         $(document).ready(function () {
             $("#indicatif").msDropdown();
         })
+
+        $("#CodePostal").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "https://api-adresse.data.gouv.fr/search/?postcode=" + $("input[name='CodePostal']").val(),
+                    data: { q: request.term },
+                    dataType: "json",
+                    success: function (data) {
+                        var postcodes = [];
+                        var villes = [];
+                        response($.map(data.features, function (item) {
+                            // Ici on est obligé d'ajouter les CP dans un array pour ne pas avoir plusieurs fois le même
+                            if ($.inArray(item.properties.city, villes) == -1) {
+                                postcodes.push(item.properties.postcode);
+                                villes.push(item.properties.city);
+                                return {
+                                    label: item.properties.postcode + " - " + item.properties.city,
+                                    city: item.properties.city,
+                                    value: item.properties.postcode
+                                };
+                            }
+                        }));
+                    }
+                });
+            },
+            // On remplit aussi la ville
+            select: function (event, ui) {
+                $('#Ville').val(ui.item.city);
+            }
+        });
+
+        $("#Ville").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "https://api-adresse.data.gouv.fr/search/?city=" + $("input[name='Ville']").val(),
+                    data: { q: request.term },
+                    dataType: "json",
+                    success: function (data) {
+                        var cities = [];
+                        response($.map(data.features, function (item) {
+                            // Ici on est obligé d'ajouter les villes dans un array pour ne pas avoir plusieurs fois la même
+                            if ($.inArray(item.properties.postcode, cities) == -1) {
+                                cities.push(item.properties.postcode);
+                                return {
+                                    label: item.properties.postcode + " - " + item.properties.city,
+                                    postcode: item.properties.postcode,
+                                    value: item.properties.city
+                                };
+                            }
+                        }));
+                    }
+                });
+            },
+            // On remplit aussi le CP
+            select: function (event, ui) {
+                $('#CodePostal').val(ui.item.postcode);
+            }
+        });
     </script>
 }

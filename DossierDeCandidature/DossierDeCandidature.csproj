@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdministrateursController.cs" />
     <Compile Include="Controllers\CandidaturesController.cs" />
     <Compile Include="Controllers\CompetencesController.cs" />
     <Compile Include="Controllers\EnregistrementController.cs" />
@@ -166,11 +167,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805030822388_new.cs" />
-    <Compile Include="Migrations\201805030822388_new.Designer.cs">
-      <DependentUpon>201805030822388_new.cs</DependentUpon>
+    <Compile Include="Migrations\201805031436214_new.cs" />
+    <Compile Include="Migrations\201805031436214_new.Designer.cs">
+      <DependentUpon>201805031436214_new.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Administrateur.cs" />
     <Compile Include="Models\Candidature.cs" />
     <Compile Include="Models\CandidatureContext.cs" />
     <Compile Include="Models\CandidatureVM.cs" />
@@ -231,6 +233,11 @@
     <Content Include="Views\Langues\AjouterLangue.cshtml" />
     <Content Include="Views\Competences\Ajouter.cshtml" />
     <Content Include="Views\References\Ajouter.cshtml" />
+    <Content Include="Views\Administrateurs\Create.cshtml" />
+    <Content Include="Views\Administrateurs\Delete.cshtml" />
+    <Content Include="Views\Administrateurs\Details.cshtml" />
+    <Content Include="Views\Administrateurs\Edit.cshtml" />
+    <Content Include="Views\Administrateurs\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -323,8 +330,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805030822388_new.resx">
-      <DependentUpon>201805030822388_new.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805031436214_new.resx">
+      <DependentUpon>201805031436214_new.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

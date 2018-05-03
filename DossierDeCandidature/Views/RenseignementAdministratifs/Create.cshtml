@@ -30,6 +30,7 @@
                 <h2 class="text-center">RENSEIGNEMENTS ADMINISTRATIFS</h2>
                 <br />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <input type="hidden" name="DateDeCreation" value="@date"/>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nom)<br />
                     @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", style = "width:200px" } })<br />

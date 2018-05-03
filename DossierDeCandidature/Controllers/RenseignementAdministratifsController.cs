@@ -27,7 +27,7 @@ namespace DossierDeCandidature.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
+        public ActionResult Create([Bind(Include = "Id,DateDeCreation,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace DossierDeCandidature.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
+        public ActionResult Edit([Bind(Include = "Id,DateDeCreation,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
         {
             string NewID= Convert.ToBase64String(BitConverter.GetBytes(renseignementAdministratif.Id)).Replace("==", "");
             if (ModelState.IsValid)

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DossierDeCandidature.Models.RenseignementAdministratif>
+
+
+<h2>LISTE DES CANDIDATS ENREGISTRES DEPUIS 1 AN OU PLUS</h2> 
+
+
+<table class="table table-responsive  table-condensed" >
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateDeCreation)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateDeCreation)
+        </td>
+        <td>
+
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+    }
+
+</table>
+
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Index", "Home")
+</div>

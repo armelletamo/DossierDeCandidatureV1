@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace DossierDeCandidature.Models
 {
-    public class CandidatureContext:DbContext
+    public class CandidatureContext : DbContext
 
-    {       
-        public CandidatureContext() :base("name=DossierDeCandidatureConnect")
+    {
+        public CandidatureContext() : base("name=DossierDeCandidatureConnect")
         {
             Database.SetInitializer<CandidatureContext>(new CreateDatabaseIfNotExists<CandidatureContext>());
         }
-       
+
 
         public DbSet<RenseignementAdministratif> RenseignementsAdministratifs { get; set; }
         public DbSet<Candidature> Candidatures { get; set; }
@@ -25,5 +25,6 @@ namespace DossierDeCandidature.Models
         public DbSet<Langues> Langues { get; set; }
         public DbSet<Motivation> Motivations { get; set; }
         public DbSet<References> References { get; set; }
+        public DbSet<Administrateur> Administrateur { get; set; }
     }
 }

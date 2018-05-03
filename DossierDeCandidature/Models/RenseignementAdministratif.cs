@@ -13,6 +13,11 @@ namespace DossierDeCandidature.Models
         public int Id { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        public DateTime DateDeCreation { get; set; }
+
+        [Required]
         public string Nom { get; set; }
 
         [Required]

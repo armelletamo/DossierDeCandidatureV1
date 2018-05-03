@@ -46,7 +46,7 @@
         text-align: center;
     }
 
-    #link, #header, #sautDeligneHeader {
+    #link, #header, #sautDeligneHeader, #progressBar {
         display: none;
     }
 

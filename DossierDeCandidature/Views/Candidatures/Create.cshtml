@@ -198,31 +198,32 @@
 
                     </div>
                 </div>
-                @if (Model.mobilité)
-                {
-                    <div class="form-group" id="inputMobilitePrecision" style="display:inline-block">
-                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input id="inputMobilitePrecision" name="Precision" class="form-control">
-
-                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                }
                 @if (!Model.mobilité)
                 {
+
                     <div class="form-group" id="inputMobilitePrecision" style="display:none">
                         @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <input id="inputMobilitePrecision" name="Precision" class="form-control">
-
+                            <input id="inputMobilitePrecision" name="Precision" class="form-control" value="@Model.Precision">
                             @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 }
+                @if (Model.mobilité)
+                {
+                    var precisionMobilite = @Model.Precision;
+                    <div class="form-group" id="inputMobilitePrecision" style="display:block">
+                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="inputMobilitePrecision" name="Precision" class="form-control" value="@precisionMobilite">
+                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                }
 
-                <br />
-                <br />
+
                 <div class="form-group">
                     <input type="submit" value="Suivant" class="btn btn-primary pull-right" />
                 </div>

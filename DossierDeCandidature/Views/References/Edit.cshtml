@@ -1,13 +1,19 @@
 ﻿@model IEnumerable<DossierDeCandidature.Models.References>
 
-
+<style>
+    .form-group {
+        margin-right: 15px;
+        margin-left: 10px;
+        display: inline-block;
+    }
+</style>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <br /> <br /> <br />
+    <br /> <br /> <br /><br />
     <h2>VOS REFERENCES</h2>
 
-    <br /> <br /> <br />
+    <br /> <br /> <br /><br />
     <div class="container">
         <div class="row">
             <div class="form-inline">
@@ -33,7 +39,7 @@
                                 <input name="[@index].Fonction" class="form-control" value="@Model.ElementAt(index).Fonction" />
                             </div>
                         </div>
-                        <br />
+
                         <div class="form-group">
                             <label class="control-label">Sociéte</label>
                             <div>

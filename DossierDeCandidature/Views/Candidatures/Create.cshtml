@@ -198,15 +198,29 @@
 
                     </div>
                 </div>
+                @if (Model.mobilité)
+                {
+                    <div class="form-group" id="inputMobilitePrecision" style="display:inline-block">
+                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="inputMobilitePrecision" name="Precision" class="form-control">
 
-                <div class="form-group" id="inputMobilitePrecision" style="display:none">
-                    @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input id="inputMobilitePrecision" name="Precision" class="form-control">
-
-                        @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
+                }
+                @if (!Model.mobilité)
+                {
+                    <div class="form-group" id="inputMobilitePrecision" style="display:none">
+                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="inputMobilitePrecision" name="Precision" class="form-control">
+
+                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
                 <br />
                 <br />
                 <div class="form-group">

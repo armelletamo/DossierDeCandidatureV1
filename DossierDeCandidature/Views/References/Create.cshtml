@@ -3,7 +3,10 @@
 <style>
     .form-group {
         margin-right: 15px;
+        margin-left:10px;
+        display:inline-block;
     }
+    
     .progressbar {
         counter-reset: step;
     }
@@ -90,7 +93,7 @@
 
 
 <h2 class="text-center">REFERENCES PROFESSIONNELLES</h2>
-<br />
+<br /><br /><br /><br />
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -102,7 +105,7 @@
                     <div class="form-group">
                         <label class="control-label">Nom/Prénom</label>
                         <div>
-                            <input name="[0].NomPrenom" class="form-control" />
+                            <input name="[0].NomPrenom" class="form-control"  />
                         </div>
                     </div>
                     <div class="form-group">
@@ -111,9 +114,9 @@
                             <input name="[0].Fonction" class="form-control" />
                         </div>
                     </div>
-                    <br />
+                   
                     <div class="form-group">
-                        <label class="control-label">Sociéte</label>
+                        <label class="control-label" >Sociéte</label>
                         <div>
                             <input name="[0].Societe" class="form-control" />
                         </div>

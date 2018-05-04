@@ -20,33 +20,34 @@ namespace DossierDeCandidature.Controllers
         {
             List<RenseignementAdministratif> rens = new List<RenseignementAdministratif>();
             var date = DateTime.Today;
-            var liste = await db.RenseignementsAdministratifs.ToListAsync();
-            foreach (var item in liste)
+            List<RenseignementAdministratif> liste = null;
+            try
             {
-                var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
-                if ((date - date1).TotalDays >= 365)
+                 liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year - 1)).ToListAsync();                              
+            }
+            catch(Exception)
+            {
+
+            }
+            if (liste.Count == 0)
+            {
+                return View("NoUser");
+            }
+
+            else
+            {
+                foreach (var item in liste)
                 {
-                    rens.Add(item);
+                    var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
+                    if ((date - date1).TotalDays >= 365)
+                    {
+                        rens.Add(item);
+                    }
                 }
-            }
-            return View(rens);
+                return View(rens);
+            }           
         }
-
-        // GET: Administrateurs/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Administrateur administrateur = await db.Administrateur.FindAsync(id);
-            if (administrateur == null)
-            {
-                return HttpNotFound();
-            }
-            return View(administrateur);
-        }
-
+                    
         // GET: Administrateurs/Create
         public ActionResult Create()
         {
@@ -67,6 +68,10 @@ namespace DossierDeCandidature.Controllers
                 if (administrateur.Identifiant == idf && administrateur.MotDePasse == mdp)
                 {
                     return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Create");
                 }
 
             }

@@ -10,11 +10,12 @@ namespace DossierDeCandidature.Models
     public class Administrateur
     {
         public int Id { get; set; }
-        [Required]
+        [Display(Name = "Identifiant")]
+        [Required(ErrorMessage = "Identifiant requis")]
         public string Identifiant { get; set; }
         [Display(Name = "Mot De Passe")]
         [DataType(DataType.Password)]
-        [Required]
+        [Required(ErrorMessage = "Mot de passe requis")]
         public string MotDePasse { get; set; }
     }
 }

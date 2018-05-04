@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<DossierDeCandidature.Models.RenseignementAdministratif>
 
 
-<h2>LISTE DES CANDIDATS ENREGISTRES DEPUIS 1 AN OU PLUS</h2> 
+<h2>LISTE DES CANDIDATS ENREGISTRES DEPUIS 1 AN OU PLUS</h2>
 
-
-<table class="table table-responsive  table-condensed" >
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<table class="table table-responsive  table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Nom)
@@ -20,21 +20,21 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateDeCreation)
-        </td>
-        <td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateDeCreation)
+            </td>
+            <td>
 
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
     }
 
 </table>

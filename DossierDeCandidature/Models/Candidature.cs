@@ -59,7 +59,7 @@ namespace DossierDeCandidature.Models
         {
             Candidature cand = (Candidature)validationContext.ObjectInstance;
 
-            if (cand.Disponibilite.Day < DateTime.Today.Day)
+            if (cand.Disponibilite < DateTime.Today.Date)
             {
 
                 yield return new ValidationResult("la date ne peux pas être antérieur au :" + DateTime.Now.ToShortDateString(), new string[] { "Disponibilite" });

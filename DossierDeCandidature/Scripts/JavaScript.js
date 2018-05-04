@@ -66,7 +66,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 
-    $("#checkboxMobilite").click(function () {
+    $("#checkboxMobilite").change(function () {
 
         var t = document.querySelector('input[id="checkboxMobilite"]');
 

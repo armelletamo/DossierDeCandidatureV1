@@ -15,7 +15,7 @@ namespace DossierDeCandidature.Controllers
     {
         private CandidatureContext db = new CandidatureContext();
 
-        // GET: Administrateurs
+        // GET: Administrateurs        
         public async Task<ActionResult> Index()
         {
             List<RenseignementAdministratif> rens = new List<RenseignementAdministratif>();
@@ -23,15 +23,15 @@ namespace DossierDeCandidature.Controllers
             List<RenseignementAdministratif> liste = null;
             try
             {
-                 liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year - 1)).ToListAsync();                              
+                liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year-1)).ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
             if (liste.Count == 0)
             {
-                return View("NoUser");
+                return View("NoCandidate");
             }
 
             else
@@ -45,9 +45,11 @@ namespace DossierDeCandidature.Controllers
                     }
                 }
                 return View(rens);
-            }           
+            }
         }
-                    
+
+
+
         // GET: Administrateurs/Create
         public ActionResult Create()
         {
@@ -66,11 +68,12 @@ namespace DossierDeCandidature.Controllers
             if (ModelState.IsValid)
             {
                 if (administrateur.Identifiant == idf && administrateur.MotDePasse == mdp)
-                {
+                {                   
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    ViewBag.Message = "Identifiant ou Mot De Passe Incorrect";
                     return View("Create");
                 }
 
@@ -110,30 +113,37 @@ namespace DossierDeCandidature.Controllers
             return View(administrateur);
         }
 
-        // GET: Administrateurs/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        // GET: Administrateurs/Delete/5       
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Administrateur administrateur = await db.Administrateur.FindAsync(id);
-            if (administrateur == null)
-            {
-                return HttpNotFound();
-            }
-            return View(administrateur);
-        }
 
-        // POST: Administrateurs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Administrateur administrateur = await db.Administrateur.FindAsync(id);
-            db.Administrateur.Remove(administrateur);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var utilisateur = await db.RenseignementsAdministratifs
+                .Include(x => x.Candidature)
+                .Include(x => x.Experience)
+                .Include(x => x.Langues)
+                .Include(x => x.Competences)
+                .Include(x => x.References)
+                .Include(x => x.Motivation)
+                .SingleAsync(a => a.Id == id);
+            for (int i = 0; i < utilisateur.References.Count; i++)
+            {
+                db.References.Remove(utilisateur.References.ElementAt(i));
+            }
+            for (int i = 0; i < utilisateur.Competences.Count; i++)
+            {
+                db.Competences.Remove(utilisateur.Competences.ElementAt(i));
+            }
+            for (int i = 0; i < utilisateur.Langues.Count; i++)
+            {
+                db.Langues.Remove(utilisateur.Langues.ElementAt(i));
+            }
+            db.Motivations.Remove(utilisateur.Motivation);
+            db.Candidatures.Remove(utilisateur.Candidature);
+            db.Experiences.Remove(utilisateur.Experience);
+            db.RenseignementsAdministratifs.Remove(utilisateur);
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Administrateurs");
         }
 
         protected override void Dispose(bool disposing)

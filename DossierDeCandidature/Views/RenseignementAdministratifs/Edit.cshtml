@@ -74,7 +74,7 @@
 </style>
 @{
     var date = DateTime.Today.ToString("yyyy-MM-dd");
-
+    var varID = Model.Id;
 }
 <script src="~/Scripts/JavaScript.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -110,7 +110,8 @@
                 <h2 class="text-center">RENSEIGNEMENTS ADMINISTRATIFS</h2>
                 <br />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <input type="hidden" name="DateDeCreation" value="@date" />
+                <input type="hidden" name="Id" value="@varID" />
+                <input type="hidden" name="DateDeCreation" value="@Model.DateDeCreation" />
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nom)<br />
                     @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", style = "width:200px" } })<br />
@@ -379,7 +380,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Telephone)<br />
-                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", style = "width:200px", placeholder = "0665231048" } })<br />
+                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", style = "width:200px" } })<br />
                     @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
 
                 </div>
@@ -402,7 +403,17 @@
                 <br />
                 <div class="form-group">
                     @Html.LabelFor(model => model.DateNaiss)<br />
-                    @Html.EditorFor(model => model.DateNaiss, new { htmlAttributes = new { @class = "form-control", @max = date, style = "width:200px" } })<br />
+                    @Html.EditorFor(model => model.DateNaiss, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            @max = date,
+                            style = "width:200px",
+                            @type = "text",
+                            @pattern = "d{1,2}/d{1,2}/d{4}"
+                        }
+                    })<br />
                     @Html.ValidationMessageFor(model => model.DateNaiss, "", new { @class = "text-danger" })
                 </div>
 
@@ -483,13 +494,15 @@
                 <br />
                 <br />
 
-                <input type="submit" value="Suivant" class="btn btn-primary pull-right" />
+                <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
 
 
             </div>
         </div>
     </div>
     <script>
+        $('#DateExpiration').removeAttr("data-val-date");
+        $('#DateNaiss').removeAttr("data-val-date");
         $(document).ready(function () {
             $("#indicatif").msDropdown();
         })
@@ -553,4 +566,14 @@
             }
         });
     </script>
+}
+@{
+    int ID = (int)Session["idRenseignement"];
+    string NewID = Convert.ToBase64String(BitConverter.GetBytes(ID)).Replace("==", "");
+}
+<div class="form-actions no-color">
+    @Html.ActionLink("Retour", "Verification", "Enregistrement", new { Id = NewID }, null)
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

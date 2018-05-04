@@ -414,21 +414,37 @@
                 </div>
                 <br />
                 <br />
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AutorisationTravail)
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.AutorisationTravail)
-                        @Html.ValidationMessageFor(model => model.AutorisationTravail, "", new { @class = "text-danger", style = "width:200px" })
-                    </div>
-                </div>
-                <br />
-                <br />
-                <div class="form-group" id="inputDateAutorisation" style="display:none">
-                    @Html.LabelFor(model => model.DateExpiration)<br />
-                    @Html.EditorFor(model => model.DateExpiration, new { htmlAttributes = new { @class = "form-control", @min = date, style = "width:200px" } })<br />
-                    @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
-                    <br />
-                </div>
+                @{
+                    if (Model.AutorisationTravail == true)
+                    {
+                        <div class="form-group" id="inputDateAutorisation" style="display:inline-block">
+                            @Html.LabelFor(model => model.DateExpiration)<br />
+                            @Html.EditorFor(model => model.DateExpiration, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    @min = date,
+                                    style = "width:200px",
+                                    @type = "text",
+                                    @pattern = "d{1,2}/d{1,2}/d{4}"
+                                }
+                            })<br />
+                            @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="inputDateAutorisation" style="display:none">
+                            @Html.LabelFor(model => model.DateExpiration)<br />
+                            @Html.EditorFor(model => model.DateExpiration, new { htmlAttributes = new { @class = "form-control", @min = date, style = "width:200px", @type = "text", @pattern = "d{1,2}/d{1,2}/d{4}" } })<br />
+                            @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+                    }
+                }
+
                 <br />
                 <div class="form-group">
                     @Html.LabelFor(model => model.PermisConduire)

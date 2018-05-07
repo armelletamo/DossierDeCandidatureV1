@@ -2,6 +2,7 @@
 using Rotativa;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -105,31 +106,38 @@ namespace DossierDeCandidature.Controllers
 
 
 
+
             //Envoi du mail***************************
             byte[] applicationPDFData = report.BuildFile(ControllerContext);
             //email from : noreply@YourDomain.com
             string mailFrom = "experisetest@gmail.com";
             MailAddress from = new MailAddress(mailFrom, "Candidature");
             //hedi.lachtane@experis-it.fr
-            MailAddress to = new MailAddress("armelle.youmbi@experis-it.fr");
+
+            MailAddress to = new MailAddress(ConfigurationManager.AppSettings["Destinataire"]);
             System.Net.Mail.MailMessage mm = new System.Net.Mail.MailMessage(from, to);
 
-            mm.Subject = "Dossier de candidature";
+            mm.Subject = nom;
             mm.Body = "Ci-joint le dossier de candidature de " + nom;
             mm.Attachments.Add(new Attachment(new MemoryStream(applicationPDFData), "Dossier_De_Candidature.pdf"));
             mm.IsBodyHtml = true;
 
 
             SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
+            smtp.Host = ConfigurationManager.AppSettings["smtpHost"];
             smtp.EnableSsl = true;
             NetworkCredential NetworkCred = new NetworkCredential();
-            //commpte gmail de test de la reception du mail et mot de passe
-            NetworkCred.UserName = "experisetest@gmail.com";
-            NetworkCred.Password = "test2018";
+
+            //compte gmail de test de la reception du mail et mot de passe
+
+            NetworkCred.UserName = ConfigurationManager.AppSettings["Expediteur"];
+            NetworkCred.Password = ConfigurationManager.AppSettings["ExpediteurPwd"];
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
-            smtp.Port = 587;
+            int port;
+            Int32.TryParse(ConfigurationManager.AppSettings["Port"], out port);
+
+            smtp.Port = port;
             try
             {
                 smtp.Send(mm);

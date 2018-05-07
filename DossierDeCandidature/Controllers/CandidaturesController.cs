@@ -44,8 +44,13 @@ namespace DossierDeCandidature.Controllers
                     Session["administratif"] = candidatures;
                     return RedirectToAction("Create", "Experiences");
                 }
-                catch(Exception )
+                catch
                 {
+                    if (Session["administratif"] == null)
+                    {
+                        ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                        return View("~/Views/Home/Index.cshtml");
+                    }
                     return HttpNotFound();
                 }
             }
@@ -56,9 +61,9 @@ namespace DossierDeCandidature.Controllers
         // GET: Candidatures/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
-            int? ID=BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
             int Id = (int)Session["idRenseignement"];
-            if (ID == null && ID!=Id)
+            if (ID == null && ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

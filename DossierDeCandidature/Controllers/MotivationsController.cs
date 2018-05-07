@@ -14,7 +14,7 @@ namespace DossierDeCandidature.Controllers
     public class MotivationsController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-        
+
 
         // GET: Motivations/Create
         public ActionResult Create()
@@ -32,7 +32,7 @@ namespace DossierDeCandidature.Controllers
             if (ModelState.IsValid)
             {
                 RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                if(candidatures==null)
+                if (candidatures == null)
                     return HttpNotFound();
                 candidatures.Motivation = motivation;
                 Session["administratif"] = candidatures;
@@ -79,7 +79,7 @@ namespace DossierDeCandidature.Controllers
             return View(motivation);
         }
 
-        
+
 
         protected override void Dispose(bool disposing)
         {

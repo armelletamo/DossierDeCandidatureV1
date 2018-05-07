@@ -14,7 +14,7 @@ namespace DossierDeCandidature.Controllers
     public class ReferencesController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-        
+
         // GET: References/Create
         public ActionResult Create()
         {
@@ -31,21 +31,29 @@ namespace DossierDeCandidature.Controllers
             ICollection<References> referencesNotNull = new List<References>();
             if (ModelState.IsValid)
             {
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                if (candidatures == null)
+                try
                 {
 
-                    return new HttpNotFoundResult();
-                }
-                foreach (var item in references)
-                {
+                    RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                    foreach (var item in references)
+                    {
 
-                    if (!(item.NomPrenom == null && item.Societe == null && item.Fonction == null && item.TelMail == null))
-                        referencesNotNull.Add(item);
+                        if (!(item.NomPrenom == null && item.Societe == null && item.Fonction == null && item.TelMail == null))
+                            referencesNotNull.Add(item);
+                    }
+                    candidatures.References = referencesNotNull;
+                    Session["administratif"] = candidatures;
+                    return RedirectToAction("Create", "Motivations");
                 }
-                candidatures.References = referencesNotNull;
-                Session["administratif"] = candidatures;
-                return RedirectToAction("Create", "Motivations");
+                catch
+                {
+                    if (Session["administratif"] == null)
+                    {
+                        ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                        return View("~/Views/Home/Index.cshtml");
+                    }
+                    return HttpNotFound();
+                }
             }
 
             return View(references);
@@ -58,6 +66,11 @@ namespace DossierDeCandidature.Controllers
             List<References> refe = new List<References>();
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
             int Id = (int)Session["idRenseignement"];
+            if (Session["idRenseignement"] == null)
+            {
+                ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                return View("~/Views/Home/Index.cshtml");
+            }
             if (ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,6 +104,11 @@ namespace DossierDeCandidature.Controllers
         {
             ICollection<References> referencesNotNull = new List<References>();
             var idRenseignement = (int)Session["idRenseignement"];
+            if (Session["idRenseignement"] == null)
+            {
+                ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                return View("~/Views/Home/Index.cshtml");
+            }
 
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             References reference = null;
@@ -128,7 +146,7 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Delete(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            
+
             References references = await db.References.FindAsync(ID);
             if (references == null)
             {
@@ -185,7 +203,7 @@ namespace DossierDeCandidature.Controllers
         {
             var idRenseignement = (int)Session["idRenseignement"];
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            
+
             if (ModelState.IsValid)
             {
                 try

@@ -13,7 +13,7 @@ namespace DossierDeCandidature.Controllers
 {
     public class ExperiencesController : Controller
     {
-        private CandidatureContext db = new CandidatureContext();      
+        private CandidatureContext db = new CandidatureContext();
 
         // GET: Experiences/Create
         public ActionResult Create()
@@ -30,10 +30,22 @@ namespace DossierDeCandidature.Controllers
         {
             if (ModelState.IsValid)
             {
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                candidatures.Experience = experience;
-                Session["administratif"] = candidatures;
-                return RedirectToAction("Create", "Langues");
+                try
+                {
+                    RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                    candidatures.Experience = experience;
+                    Session["administratif"] = candidatures;
+                    return RedirectToAction("Create", "Langues");
+                }
+                catch
+                {
+                    if (Session["administratif"] == null)
+                    {
+                        ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                        return View("~/Views/Home/Index.cshtml");
+                    }
+                    return HttpNotFound();
+                }
             }
 
             return View(experience);
@@ -63,16 +75,23 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Formation,Diplome,Ecole,Annee")] Experience experience)
         {
-            int Id = (int)Session["idRenseignement"];
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
-            if (ModelState.IsValid)
-            {                
-                db.Entry(experience).State = EntityState.Modified;
-                db.SaveChanges();                
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+            try
+            {
+                int Id = (int)Session["idRenseignement"];
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(experience).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                }
+                return View(experience);
             }
-            return View(experience);
-        }      
+            catch
+            {
+                return HttpNotFound();
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

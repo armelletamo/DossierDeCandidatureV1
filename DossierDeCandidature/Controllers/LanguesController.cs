@@ -32,21 +32,27 @@ namespace DossierDeCandidature.Controllers
             ICollection<Langues> languesNotNull = new List<Langues>();
             if (ModelState.IsValid)
             {
-                foreach (var item in langues)
+                try
                 {
-                    if (item.Langue != null)
-                        languesNotNull.Add(item);
+                    foreach (var item in langues)
+                    {
+                        if (item.Langue != null)
+                            languesNotNull.Add(item);
+                    }
+                    RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                    candidatures.Langues = languesNotNull;
+                    Session["administratif"] = candidatures;
+                    return RedirectToAction("Create", "Competences");
                 }
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                if (candidatures == null)
+                catch
                 {
-                    //Session inexistante ou Expiré, redirigé vers la page d'accueil
-                    return new HttpNotFoundResult();
-
+                    if (Session["administratif"] == null)
+                    {
+                        ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                        return View("~/Views/Home/Index.cshtml");
+                    }
+                    return HttpNotFound();
                 }
-                candidatures.Langues = languesNotNull;
-                Session["administratif"] = candidatures;
-                return RedirectToAction("Create", "Competences");
             }
 
             return View("Create");
@@ -95,22 +101,29 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
-            int Id = (int)Session["idRenseignement"];
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
-            if (ModelState.IsValid)
+            try
             {
-                foreach (var item in langues)
+                int Id = (int)Session["idRenseignement"];
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
+                if (ModelState.IsValid)
                 {
-                    if (item.Langue != null)
+                    foreach (var item in langues)
                     {
-                        db.Entry(item).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (item.Langue != null)
+                        {
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
-                }
 
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                }
+                return View(langues);
             }
-            return View(langues);
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         // GET: Langues/Delete/5
@@ -131,19 +144,27 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string Id)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
-            Langues langues = await db.Langues.FindAsync(ID);
-            if (langues == null)
+            try
+            {
+
+                var idRenseignement = (int)Session["idRenseignement"];
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
+                Langues langues = await db.Langues.FindAsync(ID);
+                if (langues == null)
+                {
+                    return HttpNotFound();
+                }
+                db.Langues.Remove(langues);
+                await db.SaveChangesAsync();
+
+
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+            }
+            catch
             {
                 return HttpNotFound();
             }
-            db.Langues.Remove(langues);
-            await db.SaveChangesAsync();
-
-
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
         }
 
         protected override void Dispose(bool disposing)
@@ -159,13 +180,20 @@ namespace DossierDeCandidature.Controllers
         public ActionResult AjouterLangue(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            int Id = (int)Session["idRenseignement"];
-            if (ID != Id)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                int Id = (int)Session["idRenseignement"];
+                if (ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-            return View();
+                return View();
+            }
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         // POST: Langues/Edit/5
@@ -175,7 +203,9 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjouterLangue([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
-            var idRenseignement = (int)Session["idRenseignement"];
+            int idRenseignement = (int)Session["idRenseignement"];
+            if (idRenseignement == 0)
+                return HttpNotFound();
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {

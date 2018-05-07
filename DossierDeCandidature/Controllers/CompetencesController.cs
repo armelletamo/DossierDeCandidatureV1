@@ -36,12 +36,24 @@ namespace DossierDeCandidature.Controllers
                     if (item.Competence != null)
                         competenceNotNull.Add(item);
                 }
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                if (candidatures == null)
+                try
+                {
+                    RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
+                    if (candidatures == null)
+                        return HttpNotFound();
+                    candidatures.Competences = competenceNotNull;
+                    Session["administratif"] = candidatures;
+                    return RedirectToAction("Create", "References");
+                }
+                catch
+                {
+                    if (Session["administratif"] == null)
+                    {
+                        ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                        return View("~/Views/Home/Index.cshtml");
+                    }
                     return HttpNotFound();
-                candidatures.Competences = competenceNotNull;
-                Session["administratif"] = candidatures;
-                return RedirectToAction("Create", "References");
+                }
             }
 
             return View(competences);
@@ -69,7 +81,7 @@ namespace DossierDeCandidature.Controllers
                     comp.Add(c);
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return HttpNotFound();
             }
@@ -85,7 +97,7 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Edit([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
             var idRenseignement = (int)Session["idRenseignement"];
-           
+
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {
@@ -125,7 +137,7 @@ namespace DossierDeCandidature.Controllers
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
             int idRenseignement = (int)Session["idRenseignement"];
             Competences competences = await db.Competences.FindAsync(ID);
-            if(competences==null)
+            if (competences == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -186,7 +198,7 @@ namespace DossierDeCandidature.Controllers
                     }
                     return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
-                catch(Exception )
+                catch (Exception)
                 {
                     return HttpNotFound();
                 }

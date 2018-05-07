@@ -103,14 +103,27 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group ">
                     @Html.LabelFor(model => model.Origine, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @{
+                        var selectListOrigine = new SelectList(
+                            new List<SelectListItem>
+                            {
+                                                    new SelectListItem {Text = "- Choisissez l'origine de votre candidature -", Value = ""},
+                                                    new SelectListItem {Text = "Contact Experis-IT", Value = "Contact Experis-IT"},
+                                                    new SelectListItem {Text = "Cooptation", Value = "Cooptation"},
+                                                    new SelectListItem {Text = "Annonce", Value = "Annonce"},
+                                                    new SelectListItem {Text = "Autre", Value = "Autre"},
+
+                            }, "Value", "Text");
+                    }
                     <div class="col-md-10">
-                        <select class="form-control" name="Origine" id="origine" style="text-align-last:center">
-                            <option value="">- Choisissez l'origine de votre candidature -</option>
-                            <option value="Contact Experis-IT">Contact Experis-IT</option>
-                            <option value="Cooptation">Cooptation</option>
-                            <option value="Annonce">Annonce</option>
-                            <option value="Autre">Autre</option>
-                        </select>
+                        @Html.DropDownListFor(model => model.Origine, selectListOrigine, new { @class = "form-control", @name = "Origine", @id = "origine", @style = "text-align-last:center" })
+                        @*<select class="form-control" name="Origine" id="origine" style="text-align-last:center">
+                                <option value="">- Choisissez l'origine de votre candidature -</option>
+                                <option value="Contact Experis-IT">Contact Experis-IT</option>
+                                <option value="Cooptation">Cooptation</option>
+                                <option value="Annonce">Annonce</option>
+                                <option value="Autre">Autre</option>
+                            </select>*@
                         @Html.ValidationMessageFor(model => model.Origine, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -125,16 +138,31 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.statutActuel, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @{
+                        var selectListStatut = new SelectList(
+                            new List<SelectListItem>
+                            {
+                                            new SelectListItem {Text = "-- Statut ---", Value = ""},
+                                            new SelectListItem {Text = "Cadre", Value = "Cadre"},
+                                            new SelectListItem {Text = "Non cadre", Value = "Non cadre"},
+                                            new SelectListItem {Text = "En poste", Value = "En poste"},
+                                            new SelectListItem {Text = "En stage", Value = "En stage"},
+                                            new SelectListItem {Text = "Sans Emploi", Value = "Sans Emploi"},
+                                            new SelectListItem {Text = "Preavi en cours", Value = "Preavi en cours"},
+
+                            }, "Value", "Text");
+                    }
                     <div class="col-md-10">
-                        <select class="form-control" name="statutActuel" id="statut" style="text-align-last:center">
-                            <option value="">-- Statut --</option>
-                            <option value="Cadre">Cadre</option>
-                            <option value="Non cadre">Non cadre</option>
-                            <option value="En poste">En poste</option>
-                            <option value="En stage">En stage</option>
-                            <option value="Sans Emploi">Sans Emploi</option>
-                            <option value="Preavi en cours">Préavis en cours</option>
-                        </select>
+                        @Html.DropDownListFor(model => model.statutActuel, selectListStatut, new { @class = "form-control", @name = "statutActuel", @id = "statut", @style = "text-align-last:center" })
+                        @*<select class="form-control" name="statutActuel" id="statut" style="text-align-last:center">
+                                <option value="">-- Statut --</option>
+                                <option value="Cadre">Cadre</option>
+                                <option value="Non cadre">Non cadre</option>
+                                <option value="En poste">En poste</option>
+                                <option value="En stage">En stage</option>
+                                <option value="Sans Emploi">Sans Emploi</option>
+                                <option value="Preavi en cours">Préavis en cours</option>
+                            </select>*@
                         @Html.ValidationMessageFor(model => model.statutActuel, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -174,7 +202,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Experience, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <input type="number" name="Experience" class="form-control" min="0" />
+                        @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 0 } })
+                        @*<input type="number" name="Experience" class="form-control" min="0" />*@
                         @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -198,30 +227,16 @@
 
                     </div>
                 </div>
-                @if (!Model.mobilité)
-                {
 
-                    <div class="form-group" id="inputMobilitePrecision" style="display:none">
-                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input id="inputMobilitePrecision" name="Precision" class="form-control" value="@Model.Precision">
-                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
-                        </div>
+                <div class="form-group" id="inputMobilitePrecision" style="display:none">
+                    @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Precision, new { htmlAttributes = new { @class = "form-control", @id = "inputMobilitePrecision" } })
+                        @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
                     </div>
-                }
-                @if (Model.mobilité)
-                {
-                    var precisionMobilite = @Model.Precision;
-                    <div class="form-group" id="inputMobilitePrecision" style="display:block">
-                        @Html.LabelFor(model => model.Precision, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input id="inputMobilitePrecision" name="Precision" class="form-control" value="@precisionMobilite">
-                            @Html.ValidationMessageFor(model => model.Precision, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                }
+                </div>
+
+
 
 
                 <div class="form-group">

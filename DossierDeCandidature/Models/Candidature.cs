@@ -40,6 +40,7 @@ namespace DossierDeCandidature.Models
 
         [Required]
         [Display(Name = "Nombre d'année d'expérience")]
+        [Range(0, 60, ErrorMessage = "le nombre doit être compris entre 0 et 60")]
         public int Experience { get; set; }
 
         [Required]
@@ -59,7 +60,7 @@ namespace DossierDeCandidature.Models
         {
             Candidature cand = (Candidature)validationContext.ObjectInstance;
 
-            if (cand.Disponibilite.Day < DateTime.Today.Day)
+            if (cand.Disponibilite.Date < DateTime.Today.Date)
             {
 
                 yield return new ValidationResult("la date ne peux pas être antérieur au :" + DateTime.Now.ToShortDateString(), new string[] { "Disponibilite" });

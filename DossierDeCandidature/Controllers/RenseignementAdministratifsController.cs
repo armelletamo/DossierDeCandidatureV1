@@ -14,8 +14,8 @@ namespace DossierDeCandidature.Controllers
     public class RenseignementAdministratifsController : Controller
     {
         private CandidatureContext db = new CandidatureContext();
-       
-       
+
+
         // GET: RenseignementAdministratifs/Create
         public ActionResult Create()
         {
@@ -45,7 +45,7 @@ namespace DossierDeCandidature.Controllers
         {
             int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
             int Id = (int)Session["idRenseignement"];
-            if (ID != Id || ID==null)
+            if (ID != Id || ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -64,10 +64,10 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DateDeCreation,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
         {
-            string NewID= Convert.ToBase64String(BitConverter.GetBytes(renseignementAdministratif.Id)).Replace("==", "");
+            string NewID = Convert.ToBase64String(BitConverter.GetBytes(renseignementAdministratif.Id)).Replace("==", "");
             if (ModelState.IsValid)
             {
-                               
+
                 db.Entry(renseignementAdministratif).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
@@ -75,7 +75,7 @@ namespace DossierDeCandidature.Controllers
             }
             return View(renseignementAdministratif);
         }
-       
+
 
         protected override void Dispose(bool disposing)
         {
@@ -85,6 +85,6 @@ namespace DossierDeCandidature.Controllers
             }
             base.Dispose(disposing);
         }
-       
+
     }
 }

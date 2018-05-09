@@ -36,7 +36,7 @@ namespace DossierDeCandidature.Controllers
                 Session["administratif"] = renseignementAdministratif;
                 return RedirectToAction("Create", "Candidatures");
             }
-
+            ViewBag.indicatifValue = renseignementAdministratif.indicatif;
             return View(renseignementAdministratif);
         }
 

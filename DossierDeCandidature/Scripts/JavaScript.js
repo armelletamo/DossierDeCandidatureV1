@@ -121,7 +121,7 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
 
-    $("#AutorisationTravail").click(function () {
+    $("#AutorisationTravail").change(function () {
 
         var t = document.querySelector('input[id="AutorisationTravail"]');
 

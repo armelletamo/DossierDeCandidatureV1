@@ -166,11 +166,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805031436214_new.cs" />
-    <Compile Include="Migrations\201805031436214_new.Designer.cs">
-      <DependentUpon>201805031436214_new.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrateur.cs" />
     <Compile Include="Models\Candidature.cs" />
     <Compile Include="Models\CandidatureContext.cs" />
@@ -328,11 +323,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805031436214_new.resx">
-      <DependentUpon>201805031436214_new.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

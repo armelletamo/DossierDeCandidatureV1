@@ -14,6 +14,7 @@ namespace DossierDeCandidature.Models
     {
         public CandidatureContext() : base("name=DossierDeCandidatureConnect")
         {
+            
             Database.SetInitializer<CandidatureContext>(new CreateDatabaseIfNotExists<CandidatureContext>());
         }
 

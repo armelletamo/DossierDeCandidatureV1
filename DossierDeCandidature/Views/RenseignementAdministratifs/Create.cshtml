@@ -475,8 +475,38 @@
     <script>
         $(document).ready(function () {
             $("#indicatif").msDropdown();
-        })
+            var t = document.querySelector('input[id="AutorisationTravail"]');
 
+            if (t.checked) {
+
+                document.getElementById("inputDateAutorisation").style.display = 'block';
+            }
+            if (!t.checked) {
+
+                document.getElementById("inputDateAutorisation").style.display = 'none';
+                document.getElementById("inputDateAutorisation").value = '';
+
+            }
+        })
+        $(document).ready(function () {
+
+            $("#AutorisationTravail").change(function () {
+
+                var t = document.querySelector('input[id="AutorisationTravail"]');
+
+                if (t.checked) {
+
+                    document.getElementById("inputDateAutorisation").style.display = 'block';
+                }
+                if (!t.checked) {
+
+                    document.getElementById("inputDateAutorisation").style.display = 'none';
+                    document.getElementById("inputDateAutorisation").value = '';
+
+                }
+
+            });
+        });
         $("#CodePostal").autocomplete({
             source: function (request, response) {
                 $.ajax({

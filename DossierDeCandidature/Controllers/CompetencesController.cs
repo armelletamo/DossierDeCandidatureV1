@@ -208,7 +208,7 @@ namespace DossierDeCandidature.Controllers
                     }
                     return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
-                catch (Exception)
+                catch
                 {
                     return HttpNotFound();
                 }

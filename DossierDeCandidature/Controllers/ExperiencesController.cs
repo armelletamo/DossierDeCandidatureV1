@@ -54,22 +54,25 @@ namespace DossierDeCandidature.Controllers
         // GET: Experiences/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
-            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
+            try
+            {
+                int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);                
+                int Id = (int)Session["idRenseignement"];
+                if (ID == null && ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Experience experience = await db.Experiences.FindAsync(ID);
+                if (experience == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(experience);
+            }
+            catch
             {
                 return HttpNotFound();
             }
-            int Id = (int)Session["idRenseignement"];
-            if (ID == null && ID != Id)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Experience experience = await db.Experiences.FindAsync(ID);
-            if (experience == null)
-            {
-                return HttpNotFound();
-            }
-            return View(experience);
         }
 
         // POST: Experiences/Edit/5

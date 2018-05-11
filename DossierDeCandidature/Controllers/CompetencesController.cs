@@ -64,6 +64,8 @@ namespace DossierDeCandidature.Controllers
             List<Competences> comp = new List<Competences>();
 
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             int Id = (int)Session["idRenseignement"];
             if (ID != Id)
             {
@@ -96,6 +98,8 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             var idRenseignement = (int)Session["idRenseignement"];
 
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
@@ -135,6 +139,8 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             int idRenseignement = (int)Session["idRenseignement"];
             Competences competences = await db.Competences.FindAsync(ID);
             if (competences == null)
@@ -159,6 +165,8 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Ajouter(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             int Id = (int)Session["idRenseignement"];
             if (ID != Id)
             {
@@ -174,6 +182,8 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Ajouter([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             var idRenseignement = (int)Session["idRenseignement"];
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)

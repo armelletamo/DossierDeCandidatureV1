@@ -55,6 +55,10 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             if (ID == null && ID != Id)
             {

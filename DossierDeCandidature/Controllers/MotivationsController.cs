@@ -31,9 +31,12 @@ namespace DossierDeCandidature.Controllers
         {
             if (ModelState.IsValid)
             {
-                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];
-                if (candidatures == null)
-                    return HttpNotFound();
+                if (Session["administratif"] == null)
+                {
+                    ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
+                    return View("~/Views/Home/Index.cshtml");
+                }
+                RenseignementAdministratif candidatures = (RenseignementAdministratif)Session["administratif"];                
                 candidatures.Motivation = motivation;
                 Session["administratif"] = candidatures;
                 return RedirectToAction("Enregistrement", "Enregistrement");
@@ -48,6 +51,10 @@ namespace DossierDeCandidature.Controllers
         {
 
             int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             if (ID == null && ID != Id)
             {
@@ -68,6 +75,10 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ExperisIt,MotifRecherche,Objectif")] Motivation motivation)
         {
+            if (Session["idRenseignement"] == null)
+            {
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             if (ModelState.IsValid)

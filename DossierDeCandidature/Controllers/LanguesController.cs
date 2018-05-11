@@ -63,6 +63,10 @@ namespace DossierDeCandidature.Controllers
         {
             List<Langues> lang = new List<Langues>();
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {                
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             if (ID != Id)
             {
@@ -203,9 +207,11 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjouterLangue([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
-            int idRenseignement = (int)Session["idRenseignement"];
-            if (idRenseignement == 0)
+            if (Session["idRenseignement"] == null)
+            {                
                 return HttpNotFound();
+            }
+            int idRenseignement = (int)Session["idRenseignement"];            
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             if (ModelState.IsValid)
             {

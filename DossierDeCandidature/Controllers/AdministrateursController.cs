@@ -23,7 +23,8 @@ namespace DossierDeCandidature.Controllers
             List<RenseignementAdministratif> liste = null;
             try
             {
-                liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year-1)).ToListAsync();
+                //liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year-1)).ToListAsync();
+                liste = await db.RenseignementsAdministratifs.ToListAsync();
             }
             catch (Exception)
             {
@@ -38,11 +39,11 @@ namespace DossierDeCandidature.Controllers
             {
                 foreach (var item in liste)
                 {
-                    var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
-                    if ((date - date1).TotalDays >= 365)
-                    {
+                    //var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
+                    //if ((date - date1).TotalDays >= 365)
+                    //{
                         rens.Add(item);
-                    }
+                    //}
                 }
                 return View(rens);
             }
@@ -114,35 +115,39 @@ namespace DossierDeCandidature.Controllers
         }
 
         // GET: Administrateurs/Delete/5       
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(FormCollection formCollection)
         {
+            string[] ids = formCollection["Id"].Split(new char[] { ',' });
+            foreach(string id in ids)
+            {
+                int Id = int.Parse(id);
+                var utilisateur = await db.RenseignementsAdministratifs
+                                .Include(x => x.Candidature)
+                                .Include(x => x.Experience)
+                                .Include(x => x.Langues)
+                                .Include(x => x.Competences)
+                                .Include(x => x.References)
+                                .Include(x => x.Motivation)
+                                .SingleAsync(a => a.Id == Id);
 
-            var utilisateur = await db.RenseignementsAdministratifs
-                .Include(x => x.Candidature)
-                .Include(x => x.Experience)
-                .Include(x => x.Langues)
-                .Include(x => x.Competences)
-                .Include(x => x.References)
-                .Include(x => x.Motivation)
-                .SingleAsync(a => a.Id == id);
-            for (int i = 0; i < utilisateur.References.Count; i++)
-            {
-                db.References.Remove(utilisateur.References.ElementAt(i));
+                for (int i = 0; i < utilisateur.References.Count; i++)
+                {
+                    db.References.Remove(utilisateur.References.ElementAt(i));
+                }
+                for (int i = 0; i < utilisateur.Competences.Count; i++)
+                {
+                    db.Competences.Remove(utilisateur.Competences.ElementAt(i));
+                }
+                for (int i = 0; i < utilisateur.Langues.Count; i++)
+                {
+                    db.Langues.Remove(utilisateur.Langues.ElementAt(i));
+                }
+                db.Motivations.Remove(utilisateur.Motivation);
+                db.Candidatures.Remove(utilisateur.Candidature);
+                db.Experiences.Remove(utilisateur.Experience);
+                db.RenseignementsAdministratifs.Remove(utilisateur);
+                db.SaveChanges();
             }
-            for (int i = 0; i < utilisateur.Competences.Count; i++)
-            {
-                db.Competences.Remove(utilisateur.Competences.ElementAt(i));
-            }
-            for (int i = 0; i < utilisateur.Langues.Count; i++)
-            {
-                db.Langues.Remove(utilisateur.Langues.ElementAt(i));
-            }
-            db.Motivations.Remove(utilisateur.Motivation);
-            db.Candidatures.Remove(utilisateur.Candidature);
-            db.Experiences.Remove(utilisateur.Experience);
-            db.RenseignementsAdministratifs.Remove(utilisateur);
-            db.SaveChanges();
-
             return RedirectToAction("Index", "Administrateurs");
         }
 

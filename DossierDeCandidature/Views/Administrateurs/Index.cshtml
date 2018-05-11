@@ -1,43 +1,74 @@
 ﻿@model IEnumerable<DossierDeCandidature.Models.RenseignementAdministratif>
 
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#checkedboxAll').click(function () {
+                if ($(this).is(":checked"))
+                    $('.checkboxId').prop("checked", true);
+                else
+                    $('.checkboxId').prop("checked", false);
+            });
+        });
+    </script>
+    <style>
+        th{
+            font-size:x-large;
+        }
+    </style>
+</head>
 
-<h2 class="text-center">LISTE DES CANDIDATS ENREGISTRES DEPUIS 1 AN OU PLUS</h2>
-
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<table class="table table-responsive  table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Prenom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateDeCreation)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<body>
+    <br /><br /><br /><br />
+    <h2 class="text-center">LISTE DES CANDIDATS ENREGISTRES DEPUIS 1 AN OU PLUS</h2>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    @using (Html.BeginForm("Delete", "Administrateurs"))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateDeCreation)
-            </td>
-            <td>
+        <input type="submit" value="Supprimer" onclick="return confirm('êtes-vous sûre de vouloir supprimer')" class="btn btn-primary pull-right" />
 
-                @Html.ActionLink("Supprimer", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+        <br /><br /><br />
+
+        <table class="table table-responsive  table-condensed">
+            <tr>
+                <th>
+                    <input type="checkbox" id="checkedboxAll" />
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prenom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateDeCreation)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkboxId" value="@item.Id" name="Id" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prenom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateDeCreation)
+                    </td>
+
+                </tr>
+            }
+
+        </table>
     }
+</body>
 
-</table>
 
 <div class="form-actions no-color">
     @Html.ActionLink("Retour", "Index", "Home")

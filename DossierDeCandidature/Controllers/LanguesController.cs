@@ -62,19 +62,14 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             List<Langues> lang = new List<Langues>();
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
-            {                
-                return HttpNotFound();
-            }
-            int Id = (int)Session["idRenseignement"];
-            if (ID != Id)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //Session["idRenseignement"] = id;
             try
             {
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int Id = (int)Session["idRenseignement"];
+                if (ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
                 var renseignementAdministratif = await db.Langues
                     .Where(x => x.RenseignementAdministratif.Id == ID)
@@ -92,7 +87,7 @@ namespace DossierDeCandidature.Controllers
                 }
                 return View(lang);
             }
-            catch (Exception)
+            catch
             {
                 return HttpNotFound();
             }
@@ -133,14 +128,20 @@ namespace DossierDeCandidature.Controllers
         // GET: Langues/Delete/5
         public async Task<ActionResult> Delete(string Id)
         {
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
-
-            Langues langues = await db.Langues.FindAsync(ID);
-            if (langues == null)
+            try
+            {
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(Id + "=="), 0);
+                Langues langues = await db.Langues.FindAsync(ID);
+                if (langues == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(langues);
+            }
+            catch
             {
                 return HttpNotFound();
             }
-            return View(langues);
         }
 
         // POST: Langues/Delete/5
@@ -191,7 +192,6 @@ namespace DossierDeCandidature.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
                 return View();
             }
             catch
@@ -207,15 +207,11 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjouterLangue([Bind(Include = "Id,Langue,NiveauLangue")] ICollection<Langues> langues)
         {
-            if (Session["idRenseignement"] == null)
-            {                
-                return HttpNotFound();
-            }
-            int idRenseignement = (int)Session["idRenseignement"];            
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            if (ModelState.IsValid)
+            try
             {
-                try
+                int idRenseignement = (int)Session["idRenseignement"];
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+                if (ModelState.IsValid)
                 {
                     var renseignementAdministratif = db.RenseignementsAdministratifs
                     .Where(x => x.Id == idRenseignement)
@@ -233,14 +229,15 @@ namespace DossierDeCandidature.Controllers
                             db.SaveChanges();
                         }
                     }
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
-                catch
-                {
-                    return new HttpNotFoundResult();
-                }
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                return View("AjouterLangue");
             }
-            return View("AjouterLangue");
+            catch
+            {
+                return new HttpNotFoundResult();
+            }
         }
     }
 }
+

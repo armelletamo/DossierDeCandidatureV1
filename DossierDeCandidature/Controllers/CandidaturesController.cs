@@ -62,6 +62,10 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {               
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             if (ID == null && ID != Id)
             {
@@ -82,6 +86,10 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Origine,Autre,statutActuel,PosteActuel,PosteSouhaite,Remuneration,RemunerationVoulu,Experience,Disponibilite,mobilité,Precision")] Candidature candidature)
         {
+            if (Session["idRenseignement"] == null)
+            {
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             if (ModelState.IsValid)

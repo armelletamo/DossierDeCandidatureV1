@@ -65,12 +65,12 @@ namespace DossierDeCandidature.Controllers
 
             List<References> refe = new List<References>();
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            int Id = (int)Session["idRenseignement"];
             if (Session["idRenseignement"] == null)
             {
                 ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
                 return View("~/Views/Home/Index.cshtml");
             }
+            int Id = (int)Session["idRenseignement"];
             if (ID != Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -103,12 +103,12 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Edit([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
             ICollection<References> referencesNotNull = new List<References>();
-            var idRenseignement = (int)Session["idRenseignement"];
             if (Session["idRenseignement"] == null)
             {
                 ViewBag.messageExpirationSession = "La session a expiré veuillez resaisir vos informations";
                 return View("~/Views/Home/Index.cshtml");
             }
+            var idRenseignement = (int)Session["idRenseignement"];
 
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
             References reference = null;
@@ -161,6 +161,10 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {                
+                return HttpNotFound();
+            }
             int idRenseignement = (int)Session["idRenseignement"];
 
             References references = await db.References.FindAsync(ID);
@@ -186,6 +190,10 @@ namespace DossierDeCandidature.Controllers
         public ActionResult Ajouter(string id)
         {
             int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+            if (Session["idRenseignement"] == null)
+            {                
+                return HttpNotFound();
+            }
             int Id = (int)Session["idRenseignement"];
             if (ID != Id)
             {
@@ -201,6 +209,10 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Ajouter([Bind(Include = "Id,NomPrenom,Fonction,Societe,TelMail")] ICollection<References> references)
         {
+            if (Session["idRenseignement"] == null)
+            {                
+                return HttpNotFound();
+            }
             var idRenseignement = (int)Session["idRenseignement"];
             string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
 

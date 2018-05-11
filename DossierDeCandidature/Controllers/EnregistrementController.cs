@@ -35,7 +35,7 @@ namespace DossierDeCandidature.Controllers
                 int Id = (db.RenseignementsAdministratifs.Where(r => r.Secu == renseignementAdministratif.Secu).FirstOrDefault()).Id;
                 Session.Timeout = 40;
                 Session["idRenseignement"] = Id;
-                NewID=Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
+                NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
             }
             catch (Exception)
             {
@@ -61,26 +61,34 @@ namespace DossierDeCandidature.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Affectation de la propriété Renseignement de l'objet cand de type CandidatureVM
-            var renseignementAdministratif = await db.RenseignementsAdministratifs
-               .Where(x => x.Id == ID)
-               .Include(x => x.Candidature)
-                .Include(x => x.Experience)
-                 .Include(x => x.Langues)
-                  .Include(x => x.Competences)
-                   .Include(x => x.References)
-                    .Include(x => x.Motivation)
-                    .FirstOrDefaultAsync();
-            if (renseignementAdministratif == null)
+            try
+            {
+
+                var renseignementAdministratif = await db.RenseignementsAdministratifs
+                   .Where(x => x.Id == ID)
+                   .Include(x => x.Candidature)
+                    .Include(x => x.Experience)
+                     .Include(x => x.Langues)
+                      .Include(x => x.Competences)
+                       .Include(x => x.References)
+                        .Include(x => x.Motivation)
+                        .FirstOrDefaultAsync();
+
+                cand.Renseignement = renseignementAdministratif;
+                return View(cand);
+            }
+            catch
             {
                 return HttpNotFound();
+
             }
-            cand.Renseignement = renseignementAdministratif;
-            return View(cand);
         }
 
         //Generation du pdf et envoi par mail
         public ActionResult PrintRenseignement(string Stringid)
         {
+            if (Session["idRenseignement"] == null)
+                return HttpNotFound();
             int ID = (int)Session["idRenseignement"];
             var renseignementAdministratif = db.RenseignementsAdministratifs
                .Where(x => x.Id == ID)
@@ -91,12 +99,12 @@ namespace DossierDeCandidature.Controllers
                    .Include(x => x.References)
                     .Include(x => x.Motivation)
                     .FirstOrDefault();
-            if(renseignementAdministratif==null)
+            if (renseignementAdministratif == null)
             {
                 return new HttpNotFoundResult();
             }
             string nom = renseignementAdministratif.Nom + " " + renseignementAdministratif.Prenom;
-            
+
             var report = new ActionAsPdf("Verification", new { id = Stringid });
             report.PageOrientation = Rotativa.Options.Orientation.Portrait;
             report.FileName = "Dossier_De_Candidature.pdf";

@@ -61,22 +61,25 @@ namespace DossierDeCandidature.Controllers
         // GET: Candidatures/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
-            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
-            {               
+            try
+            {
+                int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int Id = (int)Session["idRenseignement"];
+                if (ID == null && ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Candidature candidature = await db.Candidatures.FindAsync(ID);
+                if (candidature == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(candidature);
+            }
+            catch
+            {
                 return HttpNotFound();
             }
-            int Id = (int)Session["idRenseignement"];
-            if (ID == null && ID != Id)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Candidature candidature = await db.Candidatures.FindAsync(ID);
-            if (candidature == null)
-            {
-                return HttpNotFound();
-            }
-            return View(candidature);
         }
 
         // POST: Candidatures/Edit/5
@@ -86,25 +89,30 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Origine,Autre,statutActuel,PosteActuel,PosteSouhaite,Remuneration,RemunerationVoulu,Experience,Disponibilite,mobilité,Precision")] Candidature candidature)
         {
-            if (Session["idRenseignement"] == null)
+
+            try
+            {
+
+                int Id = (int)Session["idRenseignement"];
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
+                if (ModelState.IsValid)
+                {
+
+                    if (!candidature.mobilité)
+                        candidature.Precision = "";
+
+                    db.Entry(candidature).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                }
+                return View(candidature);
+            }
+            catch
             {
                 return HttpNotFound();
             }
-            int Id = (int)Session["idRenseignement"];
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(Id)).Replace("==", "");
-            if (ModelState.IsValid)
-            {
-
-                if (!candidature.mobilité)
-                    candidature.Precision = "";
-
-                db.Entry(candidature).State = EntityState.Modified;
-                db.SaveChanges();
-
-                //return RedirectToAction("Index", "Home");
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
-            }
-            return View(candidature);
         }
 
         protected override void Dispose(bool disposing)

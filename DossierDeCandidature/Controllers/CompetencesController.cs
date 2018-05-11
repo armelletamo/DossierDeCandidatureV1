@@ -62,18 +62,17 @@ namespace DossierDeCandidature.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             List<Competences> comp = new List<Competences>();
-
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
-                return HttpNotFound();
-            int Id = (int)Session["idRenseignement"];
-            if (ID != Id)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             try
             {
+
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int Id = (int)Session["idRenseignement"];
+                if (ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+
                 var renseignementAdministratif = await db.Competences
                     .Where(x => x.RenseignementAdministratif.Id == ID)
                          .Include("RenseignementAdministratif")
@@ -82,12 +81,12 @@ namespace DossierDeCandidature.Controllers
                 {
                     comp.Add(c);
                 }
+
             }
-            catch (Exception)
+            catch
             {
                 return HttpNotFound();
             }
-
             return View(comp);
         }
 
@@ -98,24 +97,29 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
-            if (Session["idRenseignement"] == null)
-                return HttpNotFound();
-            var idRenseignement = (int)Session["idRenseignement"];
-
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            if (ModelState.IsValid)
+            try
             {
-                foreach (var item in comp)
+                var idRenseignement = (int)Session["idRenseignement"];
+
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+                if (ModelState.IsValid)
                 {
-                    if (item.Competence != null)
+                    foreach (var item in comp)
                     {
-                        db.Entry(item).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (item.Competence != null)
+                        {
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                return View(comp);
             }
-            return View(comp);
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
 
@@ -123,14 +127,20 @@ namespace DossierDeCandidature.Controllers
         // GET: Competences/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-
-            Competences competences = await db.Competences.FindAsync(ID);
-            if (competences == null)
+            try
+            {
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                Competences competences = await db.Competences.FindAsync(ID);
+                if (competences == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(competences);
+            }
+            catch
             {
                 return HttpNotFound();
             }
-            return View(competences);
         }
 
         // POST: Competences/Delete/5
@@ -138,19 +148,24 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
-                return HttpNotFound();
-            int idRenseignement = (int)Session["idRenseignement"];
-            Competences competences = await db.Competences.FindAsync(ID);
-            if (competences == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int idRenseignement = (int)Session["idRenseignement"];
+                Competences competences = await db.Competences.FindAsync(ID);
+                if (competences == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                db.Competences.Remove(competences);
+                await db.SaveChangesAsync();
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
             }
-            db.Competences.Remove(competences);
-            await db.SaveChangesAsync();
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -164,15 +179,20 @@ namespace DossierDeCandidature.Controllers
         // GET: Competances/AjouterCompetences
         public ActionResult Ajouter(string id)
         {
-            int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            if (Session["idRenseignement"] == null)
-                return HttpNotFound();
-            int Id = (int)Session["idRenseignement"];
-            if (ID != Id)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                int ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int Id = (int)Session["idRenseignement"];
+                if (ID != Id)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                return View("Ajouter");
             }
-            return View("Ajouter");
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         // POST: Competances/Ajouter
@@ -182,14 +202,14 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Ajouter([Bind(Include = "Id,Competence,NiveauCompetence")] ICollection<Competences> comp)
         {
-            if (Session["idRenseignement"] == null)
-                return HttpNotFound();
-            var idRenseignement = (int)Session["idRenseignement"];
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
-            if (ModelState.IsValid)
+            
+            try
             {
-                try
+                var idRenseignement = (int)Session["idRenseignement"];
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(idRenseignement)).Replace("==", "");
+                if (ModelState.IsValid)
                 {
+
 
                     var renseignementAdministratif = db.RenseignementsAdministratifs
                     .Where(x => x.Id == idRenseignement)
@@ -208,13 +228,13 @@ namespace DossierDeCandidature.Controllers
                     }
                     return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
                 }
-                catch
-                {
-                    return HttpNotFound();
-                }
-
+            }
+            catch
+            {
+                return HttpNotFound();
             }
             return View("Ajouter");
         }
     }
 }
+

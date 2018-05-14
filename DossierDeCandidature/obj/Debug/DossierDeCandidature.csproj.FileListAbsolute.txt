@@ -888,8 +888,6 @@ E:\DossierDeCandidature\DossierDeCandidature\DossierDeCandidature\obj\Debug\Doss
 E:\DossierDeCandidature\DossierDeCandidature\DossierDeCandidature\obj\Debug\DossierDeCandidature.dll
 E:\DossierDeCandidature\DossierDeCandidature\DossierDeCandidature\obj\Debug\DossierDeCandidature.pdb
 C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.csprojResolveAssemblyReference.cache
-C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.Migrations._new.resources
-C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.csproj.GenerateResource.cache
 C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.csproj.CoreCompileInputs.cache
 C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.dll
 C:\Users\armelle.youmbi\Desktop\DossierDeCandidatureV1\DossierDeCandidature\obj\Debug\DossierDeCandidature.pdb

@@ -23,8 +23,8 @@ namespace DossierDeCandidature.Controllers
             List<RenseignementAdministratif> liste = null;
             try
             {
-                //liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year-1)).ToListAsync();
-                liste = await db.RenseignementsAdministratifs.ToListAsync();
+                liste = await db.RenseignementsAdministratifs.Where(x => x.DateDeCreation.Year == (date.Year-1)).ToListAsync();
+                //liste = await db.RenseignementsAdministratifs.ToListAsync();
             }
             catch (Exception)
             {
@@ -39,11 +39,11 @@ namespace DossierDeCandidature.Controllers
             {
                 foreach (var item in liste)
                 {
-                    //var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
-                    //if ((date - date1).TotalDays >= 365)
-                    //{
+                    var date1 = liste.Select(x => x.DateDeCreation).FirstOrDefault();
+                    if ((date - date1).TotalDays >= 365)
+                    {
                         rens.Add(item);
-                    //}
+                    }
                 }
                 return View(rens);
             }

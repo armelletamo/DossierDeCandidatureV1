@@ -43,18 +43,25 @@ namespace DossierDeCandidature.Controllers
         // GET: RenseignementAdministratifs/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
-            int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
-            int Id = (int)Session["idRenseignement"];
-            if (ID != Id || ID == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                int? ID = BitConverter.ToInt32(Convert.FromBase64String(id + "=="), 0);
+                int Id = (int)Session["idRenseignement"];
+                if (ID != Id || ID == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                RenseignementAdministratif renseignementAdministratif = await db.RenseignementsAdministratifs.FindAsync(ID);
+                if (renseignementAdministratif == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(renseignementAdministratif);
             }
-            RenseignementAdministratif renseignementAdministratif = await db.RenseignementsAdministratifs.FindAsync(ID);
-            if (renseignementAdministratif == null)
+            catch
             {
                 return HttpNotFound();
             }
-            return View(renseignementAdministratif);
         }
 
         // POST: RenseignementAdministratifs/Edit/5
@@ -64,16 +71,23 @@ namespace DossierDeCandidature.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DateDeCreation,Nom,Prenom,NomJeuneFille,Adresse,CodePostal,Ville,indicatif,Telephone,Email,Secu,DateNaiss,LieuNaiss,AutorisationTravail,DateExpiration,PermisConduire,Vehicule,Handicap,AmenagementPoste")] RenseignementAdministratif renseignementAdministratif)
         {
-            string NewID = Convert.ToBase64String(BitConverter.GetBytes(renseignementAdministratif.Id)).Replace("==", "");
-            if (ModelState.IsValid)
+            try
             {
+                string NewID = Convert.ToBase64String(BitConverter.GetBytes(renseignementAdministratif.Id)).Replace("==", "");
+                if (ModelState.IsValid)
+                {
 
-                db.Entry(renseignementAdministratif).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
+                    db.Entry(renseignementAdministratif).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Verification", "Enregistrement", new { id = NewID });
 
+                }
+                return View(renseignementAdministratif);
             }
-            return View(renseignementAdministratif);
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
 
